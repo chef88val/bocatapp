@@ -29,7 +29,7 @@ function getBocata(req, res, next) {
 
     } else {
         console.log('2')
-        Bocata.find({
+        Bocata.findById({
                 visible: true
             },
             (err, bocatas, total) => {
