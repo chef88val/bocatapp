@@ -3,13 +3,27 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 
-var pedidoSchema =  Schema({
-    items: Array,
+var pedidoSchema = Schema({
+    title: String,
+    items: [{
+        item: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'BOCATA'
+        },
+        size: {
+            type: String,
+            enum: ['p', 'g']
+        },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'USER'
+        }
+    }],
     users: Array,
-    author: String,
-    status: String,
+    author: {type:String, default:'system'},
+    status: {type:String, default:'draft'},
     pubDate: Date,
-    visible: Boolean
+    visible: {type:Boolean, default:true}
 })
 
 
