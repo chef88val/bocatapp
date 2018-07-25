@@ -3,7 +3,7 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 
-var feedSchema =  Schema({
+var pedidoSchema =  Schema({
     items: Array,
     users: Array,
     author: String,
@@ -13,4 +13,4 @@ var feedSchema =  Schema({
 })
 
 
-module.exports = mongoose.model('FEED', feedSchema)
+module.exports = mongoose.model('PEDIDO', pedidoSchema)
