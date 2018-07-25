@@ -7,10 +7,7 @@ var userController = require('../controllers/user')
 
 var api = express.Router();
 
-var middle= require('../middlewares/auth')
-
-var multipart =  require('connect-multiparty')
-var md_upload = multipart({uploadDir: './uploads/feeds'})
+var middle= require('../middlewares/auth') 
 
 api.get('/bocata',middle.ensureAuth, bocataController.getBocata)
 api.get('/bocata/:id',middle.ensureAuth, bocataController.getBocata)

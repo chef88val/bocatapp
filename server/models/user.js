@@ -3,7 +3,7 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 
-var feedSchema =  Schema({
+var userSchema = Schema({
     name: String,
     email: String,
     money: Number,
@@ -11,4 +11,4 @@ var feedSchema =  Schema({
 })
 
 
-module.exports = mongoose.model('FEED', feedSchema)
+module.exports = mongoose.model('USER', userSchema)
