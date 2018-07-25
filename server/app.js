@@ -5,6 +5,7 @@ var bodyParser = require('body-parser')
 var app = express();
 var routes = require('./routes/api')
 var fs = require('fs');
+var utils = require('./utils')
 module.exports = app;
 
 app.use(bodyParser.urlencoded({
@@ -25,7 +26,7 @@ global.fnError = function () {
     }
 }
 global.fnPagination = (page) => {
-    var page = 0;
+     
     if (page) {
         page--;
     }
@@ -38,18 +39,29 @@ var nodeoutlook = require('nodejs-nodemailer-outlook')
 
 function sendEmail() {
     
-    console.log(authEmail.user+authEmail.pass)
-    nodeoutlook.sendEmail({
-        auth: {
-            user: authEmail.user,
-            pass: authEmail.pass
-        },
-
-        from: 'jsegarrm@everis.com',
-        to: 'jsm.multimedia@gmail.com',
-        subject: 'Hey you, awesome!',
-        html: '<b>This is bold text</b>',
-        text: 'This is text version!'
-    });
+    try {
+        nodeoutlook.sendEmail({
+            auth: {
+                user: authEmail.user,
+                pass: authEmail.pass
+            },
+            from: 'jsegarrm@everis.com',
+            to: 'jsm.multimedia@gmail.com',
+            subject: 'Hey you, awesome!',
+            html: '<b>This is bold text</b>',
+            text: 'This is text version!'
+        });
+    } catch (error) {
+        
+    }
+   
 }
-sendEmail()
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').load();
+}
+console.log(typeof process.env.SEND_EMAIL+typeof utils.stringToBoolean(process.env.SEND_EMAIL)+utils.stringToBoolean(process.env.SEND_EMAIL)+typeof process.env.SEND_EMAIL)
+if(utils.stringToBoolean(process.env.SEND_EMAIL )){
+    console.log('111'+process.env.NODE_ENV ,typeof process.env.SEND_EMAIL)
+//sendEmail()
+
+}
