@@ -6,8 +6,8 @@ var Schema = mongoose.Schema;
 var userSchema = Schema({
     name: String,
     email: String,
-    money: Number,
-    visible: Boolean
+    money: {type:Number, default:0},
+    visible: {type:Boolean, default:true}
 })
 
 
