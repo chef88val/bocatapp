@@ -1,14 +1,24 @@
 'use strict';
 
 var express = require('express');
-var bocataController = require('../controllers/bocata')
-var pedidoController = require('../controllers/pedido')
-var userController = require('../controllers/user')
 
+var bocataRouter = require('../routes/bocata')
+var pedidoRouter = require('../routes/pedido')
+var userRouter = require('../routes/user')
+var app = express();
 var api = express.Router();
 
 var middle= require('../middlewares/auth') 
 
+app.use('/bocata', bocataRouter)
+app.use('/pedido', pedidoRouter)
+app.use('/user', userRouter)
+module.exports = app;
+/*
+
+var bocataController = require('../controllers/bocata')
+var pedidoController = require('../controllers/pedido')
+var userController = require('../controllers/user')
 api.get('/bocata',middle.ensureAuth, bocataController.getBocata)
 api.get('/bocata/:id',middle.ensureAuth, bocataController.getBocata)
 api.post('/bocata', bocataController.updateBocata)
@@ -25,6 +35,6 @@ api.get('/user',middle.ensureAuth, userController.getUser)
 api.get('/user/:id',middle.ensureAuth, userController.getUser)
 api.post('/user', userController.saveUser)
 api.delete('/user/:id',middle.ensureAuth, userController.deleteUser)
-api.put('/user/:id',middle.ensureAuth, userController.updateUser)
+api.put('/user/:id',middle.ensureAuth, userController.updateUser)*/
 
-module.exports = api
+//module.exports = api
