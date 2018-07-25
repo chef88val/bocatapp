@@ -8,7 +8,7 @@ var middle= require('../middlewares/auth')
 
 api.get('/',middle.ensureAuth, bocataController.getBocata)
 api.get('/:id',middle.ensureAuth, bocataController.getBocata)
-api.post('/bocata', bocataController.updateBocata)
+api.post('/', bocataController.updateBocata)
 api.delete('/:id',middle.ensureAuth, bocataController.deleteBocata)
 api.put('/:id',middle.ensureAuth, bocataController.updateBocata) 
 module.exports = api
