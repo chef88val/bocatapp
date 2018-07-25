@@ -3,8 +3,8 @@
 var mongoose =  require('mongoose');
 var app = require('./app')
 var port = 3800;
-var nameApp = 'Avantio';
-var feedController = require('./controllers/rss')
+var nameApp = 'BocatApp';
+var feedController = require('./controllers/bocata')
 mongoose.Promise = global.Promise;
 mongoose.connect(`mongodb://localhost:27017/${nameApp}`)
     .then(
