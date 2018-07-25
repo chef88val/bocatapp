@@ -11,19 +11,20 @@ let chaiHttp = require('chai-http');
 //let server = require('../index');
 let app = require('../app');
 let should = chai.should();
-
+const el = new User({
+    name: 'name',
+    visible: true,
+    email: 'email@email.com',
+    money: 0.0
+});
 chai.use(chaiHttp);
 const url = 'http://localhost:3800/api/';
 const reqq = request('http://localhost:3800/api/');
 let idMongo;
 let idMongoReal = '5b3f93135dd0ba50f255fee5';
-describe('Model.RSS', () => {
+describe('Model.USER', () => {
     it('Exist', (done) => {
-        let el = new User({
-            title: 'title',
-            visible: true,
-            publisher: 'pais'
-        });
+       
         console.log(el);
         idMongo = el._id;
         el.validate(((err, user) => {
@@ -33,11 +34,7 @@ describe('Model.RSS', () => {
     })
 
     it('ExistFalse', (done) => {
-        let el = new User({
-            title: 'title',
-            visible: false,
-            publisher: 'pais'
-        });
+        el.visible = false;
         console.log(el);
         el.validate(((err, user) => {
             //expect(err.errors.title).to.exist;

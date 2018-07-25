@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 var bocataSchema =  Schema({
     name: String,
-    size: {type: Number, enum: ['p','g']},
+    size: {type: String, enum: ['p','g']},
     visible: Boolean
 })
 

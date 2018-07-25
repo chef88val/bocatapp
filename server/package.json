@@ -9,13 +9,18 @@
   "author": "jsegarrm",
   "license": "ISC",
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
     "express": "^4.16.3",
+    "mocha": "^5.2.0",
     "mongodb": "^3.1.1",
     "mongoose": "^5.2.5",
     "mongoose-paginate": "^5.0.3",
-    "mongoose-paginator": "^0.2.5"
+    "mongoose-paginator": "^0.2.5",
+    "supertest": "^3.1.0"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "lodash": "^4.17.10",
     "save": "^2.3.2"
   }
