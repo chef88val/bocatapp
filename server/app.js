@@ -65,3 +65,19 @@ if(utils.stringToBoolean(process.env.SEND_EMAIL )){
 //sendEmail()
 
 }
+var moment = require('moment')
+var CronJob = require('cron').CronJob;
+// Patrón de cron
+// Corre todos los lunes a la 1:00 PM
+new CronJob('00 10 * * 0-5', function() {
+  // Código a ejecutar
+
+}, function() {
+    return null;
+  // Código a ejecutar cuando la tarea termina. 
+  // Puedes pasar null para que no haga nada
+}, true);
+var date = new Date();
+console.log(moment().format("DD/MM/YYYY"));
+console.log(`${date.getUTCDay()}/${date.getUTCMonth()}/${date.getUTCFullYear()}`)
+console.log(`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`)
