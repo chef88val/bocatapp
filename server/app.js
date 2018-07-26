@@ -38,7 +38,6 @@ global.fnPagination = (page) => {
     return itemsPage * page
 }
 //console.log(this.cryptPassword('everis'))
-var authEmail = JSON.parse(fs.readFileSync('./config.json','utf-8'))
 var nodeoutlook = require('nodejs-nodemailer-outlook')
 
 function sendEmail() {
@@ -65,6 +64,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 console.log(typeof process.env.SEND_EMAIL+typeof utils.stringToBoolean(process.env.SEND_EMAIL)+utils.stringToBoolean(process.env.SEND_EMAIL)+typeof process.env.SEND_EMAIL)
 if(utils.stringToBoolean(process.env.SEND_EMAIL )){
+    var authEmail = JSON.parse(fs.readFileSync('./config.json','utf-8'))
     console.log('111'+process.env.NODE_ENV ,typeof process.env.SEND_EMAIL)
 //sendEmail()
 
@@ -121,3 +121,5 @@ new CronJob('00 10 * * 0-5', function() {
   // Código a ejecutar cuando la tarea termina. 
   // Puedes pasar null para que no haga nada
 }, true);
+
+utils.makeMigration('user');
