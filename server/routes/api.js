@@ -5,6 +5,7 @@ var express = require('express');
 var bocataRouter = require('../routes/bocata')
 var pedidoRouter = require('../routes/pedido')
 var userRouter = require('../routes/user')
+var adminRouter = require('../routes/admin')
 var app = express();
 var api = express.Router();
 
@@ -13,6 +14,7 @@ var middle= require('../middlewares/auth')
 app.use('/bocata', bocataRouter)
 app.use('/pedido', pedidoRouter)
 app.use('/user', userRouter)
+app.use('/admin', adminRouter)
 module.exports = app;
 /*
 

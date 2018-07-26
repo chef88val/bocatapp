@@ -1,29 +1,29 @@
-var User = require('../models/user')
+var Admin = require('../models/admin')
 var mongoosePaginate = require('mongoose-paginate');
 var path = require('path');
 var fs = require('fs');
 var moment = require('moment')
 
 
-function getUser(req, res, next) {
+function getAdmin(req, res, next) {
     if (req.params.id) {
 
-        User.findById({
+        Admin.findById({
             _id: req.params.id,
             visible: true
-        }, (err, user) => {
-            console.log(err, user)
+        }, (err, admin) => {
+            console.log(err, admin)
             if (err) return res.status(500).send({
                 message: 'Error en la peticion'
             })
-            if (!user || user.length < 1)
+            if (!admin || admin.length < 1)
                 return res.status(404).send({
-                    message: 'El user no existe'
+                    message: 'El admin no existe'
                 })
-            //if (user &&  user.length > 1)
+            //if (admin &&  admin.length > 1)
 
             return res.status(200).send({
-                user
+                admin
             })
 
         })
@@ -31,12 +31,12 @@ function getUser(req, res, next) {
     }
 }
 
-function getUsers(profile) {
+function getAdmins(profile) {
     
     try {
 
 
-        var results= User.find({
+        var results= Admin.find({
                 visible: true,
                 notify: true,
                 profile,
@@ -45,7 +45,7 @@ function getUsers(profile) {
                     {$or:[{lastCall: {"$gte": moment().format(),"$lt":moment().subtract(7, 'days')}}]}
                 ]*/
             });
-            //console.log('-'+ users) 
+            //console.log('-'+ admins) 
             return results;
             
              
@@ -56,69 +56,69 @@ function getUsers(profile) {
 }
 
 
-function saveUser(req, res, next) {
+function saveAdmin(req, res, next) {
     res.status(200).send({
-        message: "saveUser OK"
+        message: "saveAdmin OK"
     })
 }
 
-function updateCallerUser(user) {
+function updateCallerAdmin(admin) {
     
      
-    user.lastCall = moment().format();
-        User.findByIdAndUpdate(id, user, {
+    admin.lastCall = moment().format();
+        Admin.findByIdAndUpdate(id, admin, {
             new: true
-        }, (err, _user) => {
-            console.log('updateUser', err)
+        }, (err, _admin) => {
+            console.log('updateAdmin', err)
             if (err) return res.status(500).send({
                 message: 'Error en la peticion'
             })
-            if (!_user) return res.status(404).send({
-                message: 'No hay Users disponibles'
+            if (!_admin) return res.status(404).send({
+                message: 'No hay Admins disponibles'
             })
-            //if (_user) 
+            //if (_admin) 
             return res.status(200).send({
-                message: "User updated"
+                message: "Admin updated"
             })
         }) 
 }
     
-function updateUser(req, res, next) {
+function updateAdmin(req, res, next) {
     
     if (req.params.id) {
         var update = req.body;
          
         update.visible = true;
-        User.findByIdAndUpdate(req.params.id, update, {
+        Admin.findByIdAndUpdate(req.params.id, update, {
             new: true
-        }, (err, _user) => {
-            console.log('updateUser', err)
+        }, (err, _admin) => {
+            console.log('updateAdmin', err)
             if (err) return res.status(500).send({
                 message: 'Error en la peticion'
             })
-            if (!_user) return res.status(404).send({
-                message: 'No hay Users disponibles'
+            if (!_admin) return res.status(404).send({
+                message: 'No hay Admins disponibles'
             })
-            //if (_user) 
+            //if (_admin) 
             return res.status(200).send({
-                message: "User updated"
+                message: "Admin updated"
             })
         })
     } else {
         console.log('0'+req.body)
-        console.log('1'+User);
-        let user = new User(req.body);
+        console.log('1'+Admin);
+        let admin = new Admin(req.body);
         try {
-            User.create(user,(err, _user) => {
+            Admin.create(admin,(err, _admin) => {
                  
                 if (err) return res.status(500).send({
                     message: 'Error en la peticion'
                 })
-                if (!_user) return res.status(404).send({
-                    message: 'No hay Users disponibles'
+                if (!_admin) return res.status(404).send({
+                    message: 'No hay Admins disponibles'
                 })
                 return res.status(200).send({
-                    message: "User created"
+                    message: "Admin created"
                 })
                 
             })
@@ -130,16 +130,16 @@ function updateUser(req, res, next) {
     }
 }
 
-function deleteUser(req, res, next) {
+function deleteAdmin(req, res, next) {
     res.status(200).send({
-        message: "deleteUser OK"
+        message: "deleteAdmin OK"
     })
 }
 
 module.exports = {
-    getUser,
-    getUsers,
-    saveUser,updateCallerUser,
-    deleteUser,
-    updateUser
+    getAdmin,
+    getAdmins,
+    saveAdmin,updateCallerAdmin,
+    deleteAdmin,
+    updateAdmin
 };
