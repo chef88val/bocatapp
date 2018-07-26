@@ -6,6 +6,10 @@ var app = express();
 var routes = require('./routes/api')
 var fs = require('fs');
 var utils = require('./utils')
+var moment = require('moment')
+var controllerPedido = require('./controllers/pedido');
+var controllerUser = require('./controllers/user');
+var _ = require('lodash')
 module.exports = app;
 
 app.use(bodyParser.urlencoded({
@@ -65,19 +69,55 @@ if(utils.stringToBoolean(process.env.SEND_EMAIL )){
 //sendEmail()
 
 }
-var moment = require('moment')
+var listUsers=[];
+function randomUser(){
+     
+     //console.log(listUsers)
+    let numberRandom = Math.floor(Math.random()*(listUsers.length))
+    
+    console.log('2'+'numberRandom'+numberRandom)
+    console.log('3'+'listUsers[numberRandom]'+listUsers[numberRandom])
+}
+setTimeout(() => {
+    
+    //randomUser();
+}, 2000); 
+    
+setTimeout(() => {
+    
+    let querylistUsers= controllerUser.getUsers();
+    querylistUsers.exec((err,users)=>{
+        
+        users.forEach((user)=>{
+              
+            if((isNaN(user.lastCall)|| user.lastCall!=null)&& !(moment(user.lastCall).isBetween(moment().subtract(7,'days'),moment().format()) )){
+                listUsers.push(user)
+            }
+        })
+         console.log('length'+listUsers.length)
+        
+         
+        let numberRandom = Math.floor(Math.random()*(listUsers.length))
+        let caller =listUsers[numberRandom]
+         controllerPedido.savePedido(caller)/*.exec((err, pedido)=>{
+            controllerUser.updateCallerUser(caller).exec((err, ok)=>{
+                console.log(err, ok)
+            });
+        });*/
+    });
+    
+}, 1000); 
 var CronJob = require('cron').CronJob;
 // Patrón de cron
 // Corre todos los lunes a la 1:00 PM
 new CronJob('00 10 * * 0-5', function() {
   // Código a ejecutar
 
+  let idPedido=controllerPedido.savePedido();
 }, function() {
-    return null;
+
+   let listUsers= controllerUser.getUsers();
+   let numberRandom = Math.random(1+listUsers.length)
   // Código a ejecutar cuando la tarea termina. 
   // Puedes pasar null para que no haga nada
 }, true);
-var date = new Date();
-console.log(moment().format("DD/MM/YYYY"));
-console.log(`${date.getUTCDay()}/${date.getUTCMonth()}/${date.getUTCFullYear()}`)
-console.log(`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`)

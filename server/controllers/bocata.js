@@ -7,7 +7,7 @@ var fs = require('fs');
 function getBocata(req, res, next) {
     if (req.params.id) {
 
-        Bocata.find({
+        Bocata.findById({
             _id: req.params.id,
             visible: true
         }, (err, bocata) => {
@@ -29,7 +29,7 @@ function getBocata(req, res, next) {
 
     } else {
         console.log('2')
-        Bocata.findById({
+        Bocata.find({
                 visible: true
             },
             (err, bocatas, total) => {
@@ -74,9 +74,9 @@ function updateBocata(req, res, next) {
         })
     } else {
         console.log('2');
-        Bocata = new Bocata(req.body);
         try {
-              Bocata.save((err, _bocata) => {
+            let bocata = new Bocata(req.body);
+              Bocata.create(bocata,(err, _bocata) => {
             console.log(err,_bocata)
             if (err) return res.status(500).send({
                 message: 'Error en la peticion'
