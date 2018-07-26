@@ -7,52 +7,56 @@ var moment = require('moment')
 
 function getUser(req, res, next) {
     if (req.params.id) {
-
-        User.findById({
-            _id: req.params.id,
-            visible: true
-        }, (err, user) => {
-            console.log(err, user)
-            if (err) return res.status(500).send({
-                message: 'Error en la peticion'
-            })
-            if (!user || user.length < 1)
-                return res.status(404).send({
-                    message: 'El user no existe'
+        try {
+            User.findById({
+                _id: req.params.id,
+                visible: true
+            }, (err, user) => {
+                console.log(err, user)
+                if (err) return res.status(500).send({
+                    message: 'Error en la peticion'
                 })
-            //if (user &&  user.length > 1)
+                if (!user || user.length < 1)
+                    return res.status(404).send({
+                        message: 'El user no existe'
+                    })
+                //if (user &&  user.length > 1)
 
-            return res.status(200).send({
-                user
+                return res.status(200).send({
+                    user
+                })
+
             })
 
-        })
+        } catch (error) {
 
+        }
     }
 }
 
 function getUsers(profile) {
-    
+
     try {
 
 
-        var results= User.find({
-                visible: true,
-                notify: true,
-                profile,
-                /*$and:[
-                    {$or:[{lastCall:{ $exists: false }}]}, 
-                    {$or:[{lastCall: {"$gte": moment().format(),"$lt":moment().subtract(7, 'days')}}]}
-                ]*/
-            });
-            //console.log('-'+ users) 
-            return results;
-            
-             
-        } catch (error) {
-            
-        }
-    
+        var results = User.find({
+            visible: true,
+            notify: true,
+            profile,
+            role: 'User'
+            /*$and:[
+                {$or:[{lastCall:{ $exists: false }}]}, 
+                {$or:[{lastCall: {"$gte": moment().format(),"$lt":moment().subtract(7, 'days')}}]}
+            ]*/
+        });
+        //console.log('-'+ users) 
+        return results;
+
+
+    } catch (error) {
+
+    }
+
 }
 
 
@@ -63,9 +67,9 @@ function saveUser(req, res, next) {
 }
 
 function updateCallerUser(user) {
-    
-     
-    user.lastCall = moment().format();
+
+    try {
+        user.lastCall = moment().format();
         User.findByIdAndUpdate(id, user, {
             new: true
         }, (err, _user) => {
@@ -80,37 +84,44 @@ function updateCallerUser(user) {
             return res.status(200).send({
                 message: "User updated"
             })
-        }) 
-}
-    
-function updateUser(req, res, next) {
-    
-    if (req.params.id) {
-        var update = req.body;
-         
-        update.visible = true;
-        User.findByIdAndUpdate(req.params.id, update, {
-            new: true
-        }, (err, _user) => {
-            console.log('updateUser', err)
-            if (err) return res.status(500).send({
-                message: 'Error en la peticion'
-            })
-            if (!_user) return res.status(404).send({
-                message: 'No hay Users disponibles'
-            })
-            //if (_user) 
-            return res.status(200).send({
-                message: "User updated"
-            })
         })
+    } catch (error) {
+
+    }
+}
+
+function updateUser(req, res, next) {
+
+    if (req.params.id) {
+        try {
+            var update = req.body;
+
+            update.visible = true;
+            User.findByIdAndUpdate(req.params.id, update, {
+                new: true
+            }, (err, _user) => {
+                console.log('updateUser', err)
+                if (err) return res.status(500).send({
+                    message: 'Error en la peticion'
+                })
+                if (!_user) return res.status(404).send({
+                    message: 'No hay Users disponibles'
+                })
+                //if (_user) 
+                return res.status(200).send({
+                    message: "User updated"
+                })
+            })
+        } catch (error) {
+
+        }
     } else {
-        console.log('0'+req.body)
-        console.log('1'+User);
+        console.log('0' + req.body)
+        console.log('1' + User);
         let user = new User(req.body);
         try {
-            User.create(user,(err, _user) => {
-                 
+            User.create(user, (err, _user) => {
+
                 if (err) return res.status(500).send({
                     message: 'Error en la peticion'
                 })
@@ -120,13 +131,13 @@ function updateUser(req, res, next) {
                 return res.status(200).send({
                     message: "User created"
                 })
-                
+
             })
         } catch (error) {
             return res.status(500).send(error)
         }
 
- 
+
     }
 }
 
@@ -139,7 +150,8 @@ function deleteUser(req, res, next) {
 module.exports = {
     getUser,
     getUsers,
-    saveUser,updateCallerUser,
+    saveUser,
+    updateCallerUser,
     deleteUser,
     updateUser
 };

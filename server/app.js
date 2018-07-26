@@ -39,11 +39,12 @@ global.fnPagination = (page) => {
 }
 //console.log(this.cryptPassword('everis'))
 var nodeoutlook = require('nodejs-nodemailer-outlook')
-var caller ;
+var caller;
+
 function sendEmail(currentPedido) {
     var authEmail = JSON.parse(fs.readFileSync('./config.json', 'utf-8'))
     try {
-        console.log(caller,'try',authEmail)
+        console.log(caller, 'try', authEmail)
         nodeoutlook.sendEmail({
             auth: {
                 user: authEmail.user,
@@ -58,7 +59,7 @@ function sendEmail(currentPedido) {
             text: 'This is text version!'
         });
     } catch (error) {
-console.log(error)
+        console.log(error)
     }
 
 }
@@ -83,13 +84,14 @@ setTimeout(() => {
 
     //randomUser();
     if (utils.stringToBoolean(process.env.SEND_EMAIL)) {
-        
+
         console.log('111' + process.env.NODE_ENV, typeof process.env.SEND_EMAIL)
         sendEmail()
 
     }
 }, 2000);
 var currentPedido;
+
 function initPedidoDay(profile) {
     let querylistUsers = controllerUser.getUsers(profile);
     querylistUsers.exec((err, users) => {
@@ -97,7 +99,7 @@ function initPedidoDay(profile) {
             //listUsersToNotify = users;
             console.log('-' + users.length)
             users.forEach((user) => {
-                if(!(listUsersToNotify.includes(user.email)))listUsersToNotify.push(user.email)
+                if (!(listUsersToNotify.includes(user.email))) listUsersToNotify.push(user.email)
                 if ((isNaN(user.lastCall) || user.lastCall != null) && !(moment(user.lastCall).isBetween(moment().subtract(7, 'days'), moment().format()))) {
                     listUsers.push(user)
                 }
@@ -108,11 +110,11 @@ function initPedidoDay(profile) {
 
 
         let numberRandom = Math.floor(Math.random() * (listUsers.length))
-       caller= listUsers[numberRandom]
+        caller = listUsers[numberRandom]
         console.log(numberRandom, caller)
         console.log('-' + listUsersToNotify.length)
         if (utils.stringToBoolean(process.env.SAVE_PEDIDO))
-        currentPedido=controllerPedido.savePedido(caller)
+            currentPedido = controllerPedido.savePedido(caller)
         /*.exec((err, pedido)=>{
             controllerUser.updateCallerUser(caller).exec((err, ok)=>{
                 console.log(err, ok)
@@ -121,8 +123,12 @@ function initPedidoDay(profile) {
     });
 }
 
+const profilesAPI = ['SF'];
+
 setTimeout(() => {
-    initPedidoDay('SF')
+    profilesAPI.forEach((profile) => {
+        initPedidoDay(profile)
+    })
 
 
 }, 1000);

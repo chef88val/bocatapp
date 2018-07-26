@@ -7,10 +7,6 @@ var api = express.Router();
 
 var middle= require('../middlewares/auth') 
 
-api.get('/',middle.ensureAuth, adminController.getAdmin)
-api.get('/:id',middle.ensureAuth, adminController.getAdmin)
-api.post('/', adminController.updateAdmin)
-api.delete('/:id',middle.ensureAuth, adminController.deleteAdmin)
-api.put('/:id',middle.ensureAuth, adminController.updateAdmin)
+api.get('/password/:password',middle.ensureAuth, adminController.getPassword) 
 
 module.exports = api
