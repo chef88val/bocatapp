@@ -22,6 +22,7 @@ var pedidoSchema = Schema({
     users: Array,
     author: {type:String, default:'system'},
     status: {type:String, default:'draft'},
+    caller: {type:mongoose.Schema.Types.ObjectId, ref: 'USER'},
     pubDate: Date,
     visible: {type:Boolean, default:true}
 })

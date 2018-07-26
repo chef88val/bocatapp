@@ -7,6 +7,7 @@ var userSchema = Schema({
     name: String,
     email: String,
     money: {type:Number, default:0},
+    lastCall: Date,
     visible: {type:Boolean, default:true}
 })
 
