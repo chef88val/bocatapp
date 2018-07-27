@@ -23,6 +23,7 @@
     "@ng-bootstrap/ng-bootstrap": "^2.2.0",
     "@ngx-translate/core": "^10.0.2",
     "core-js": "^2.5.4",
+    "ngx-permissions": "^5.0.0",
     "ngx-restangular": "^3.0.0",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
