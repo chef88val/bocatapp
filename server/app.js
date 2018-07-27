@@ -1,5 +1,6 @@
 'use strict';
 
+var dataAdmin= require('./dataAdmin')
 var express = require('express')
 var bodyParser = require('body-parser')
 var app = express();
@@ -10,8 +11,8 @@ var moment = require('moment')
 var controllerPedido = require('./controllers/pedido');
 var controllerUser = require('./controllers/user');
 var _ = require('lodash')
-module.exports = app;
 
+module.exports =  app;
 app.use(bodyParser.urlencoded({
     extended: false
 }));
@@ -23,6 +24,7 @@ app.use(function (req, res, next) {
     next();
 });
 app.use('/api', routes)
+
 global.fnError = function () {
 
     return {
@@ -123,10 +125,10 @@ function initPedidoDay(profile) {
     });
 }
 
-const profilesAPI = ['SF'];
 
 setTimeout(() => {
-    profilesAPI.forEach((profile) => {
+    console.log(dataAdmin)
+    dataAdmin.profilesAPI.forEach((profile) => {
         initPedidoDay(profile)
     })
 
@@ -153,3 +155,5 @@ new CronJob('00 10 * * 0-5', function () {
 
     }
 }, true);
+
+

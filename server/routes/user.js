@@ -9,7 +9,7 @@ var middle= require('../middlewares/auth')
 
 api.get('/',middle.ensureAuth, userController.getUser)
 api.get('/:id',middle.ensureAuth, userController.getUser)
-api.post('/', userController.updateUser)
+api.post('/', userController.getLoginUser)
 api.delete('/:id',middle.ensureAuth, userController.deleteUser)
 api.put('/:id',middle.ensureAuth, userController.updateUser)
 

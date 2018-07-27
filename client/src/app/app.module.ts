@@ -41,6 +41,7 @@ import { FormsModule } from '@angular/forms';
 export class AppModule { }
 // Function for setting the default restangular configuration
 export function RestangularConfigFactory(RestangularProvider) {
-  RestangularProvider.setBaseUrl('http://api.restngx.local/v1');
-  RestangularProvider.setDefaultHeaders({ 'Authorization': 'Bearer UDXPx-Xko0w4BRKajozCVy20X11MRZs1' });
+  RestangularProvider.setBaseUrl('http://127.0.0.1:3800/api/');
+  //RestangularProvider.setDefaultHeaders({ 'Authorization': 'Bearer UDXPx-Xko0w4BRKajozCVy20X11MRZs1' });
 }
+
