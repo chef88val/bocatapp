@@ -23,8 +23,12 @@
     </h2>
   </li>
 </ul>-->
-<!--<app-navbar></app-navbar>-->
-<div class="container-fluid">
+<br>
+<div *ngIf="!isUser">
+  <app-login></app-login>
+</div>
+<div *ngIf="isUser" class="container-fluid">
+  <!--<app-navbar></app-navbar>-->
   <div class="row ">
     <div class="col-md-12">
       <div class="jumbotron">
@@ -44,10 +48,10 @@
         <app-admin class="jumbotron text-center col-lg-5 component"></app-admin>
       </div>
       <div class="row  justify-content-around">
-          <app-pedir class="jumbotron  col-lg-5 component"></app-pedir>
+        <app-pedir class="jumbotron  col-lg-5 component"></app-pedir>
         <app-reservar class="jumbotron text-center col-lg-5 component"></app-reservar>
       </div>
     </div>
   </div>
+  <app-footer></app-footer>
 </div>
-<app-footer></app-footer>

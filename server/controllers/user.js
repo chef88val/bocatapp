@@ -60,6 +60,46 @@ function getUsers(profile) {
 }
 
 
+function getLoginUser(req, res, next) {
+    
+        var user = new User({
+            visible: true, 
+            profile: req.body.profile,
+            email: req.body.email
+        })
+          console.log('body',req.body)
+          console.log('user',user)
+         User.find(
+            {
+                visible: true, 
+                profile: req.body.profile,
+                email: req.body.email
+            }
+            /*$and:[
+                {$or:[{lastCall:{ $exists: false }}]}, 
+                {$or:[{lastCall: {"$gte": moment().format(),"$lt":moment().subtract(7, 'days')}}]}
+            ]*/
+        ,{}).exec((err, _user) => {
+        //console.log(err,'-',_user) 
+
+        if (err) return res.status(500).send({
+                message: 'Error en la peticion'
+            })
+            if (!_user) return res.status(404).send({
+                message: 'No hay Users disponibles'
+            })
+            //if (_user) 
+            return res.status(200).send(
+                _user[0]
+            )
+    })
+
+
+     
+
+}
+
+
 function saveUser(req, res, next) {
     res.status(200).send({
         message: "saveUser OK"
@@ -89,6 +129,7 @@ function updateCallerUser(user) {
 
     }
 }
+
 
 function updateUser(req, res, next) {
 
@@ -153,5 +194,6 @@ module.exports = {
     saveUser,
     updateCallerUser,
     deleteUser,
-    updateUser
+    updateUser,
+    getLoginUser
 };

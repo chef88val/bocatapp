@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { apirestService } from './apirest.service';
+import { ApiRestService } from './ApiRestService';
 
-describe('apirestService', () => {
+describe('ApiRestService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [apirestService]
+      providers: [ApiRestService]
     });
   });
 
-  it('should be created', inject([apirestService], (service: apirestService) => {
+  it('should be created', inject([ApiRestService], (service: ApiRestService) => {
     expect(service).toBeTruthy();
   }));
 });
