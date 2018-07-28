@@ -35,6 +35,7 @@
         <h2>
           Hello, world!
         </h2>
+        
         <p>
           This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and
           three supporting pieces of content. Use it as a starting point to create something more unique.
@@ -42,14 +43,15 @@
         <p>
           <a class="btn btn-primary btn-large" href="#">Learn more</a>
         </p>
-      </div>
+      </div> 
       <div class="row justify-content-around">
-        <app-consultar class="jumbotron text-center col-lg-5 component"></app-consultar>
-        <app-admin class="jumbotron text-center col-lg-5 component"></app-admin>
+        <app-consultar *ngIf="isCaller" class="jumbotron text-center col-lg-5 component"></app-consultar>
+        <app-reservar   class="jumbotron text-center col-lg-5 component"></app-reservar>
       </div>
       <div class="row  justify-content-around">
-        <app-pedir class="jumbotron  col-lg-5 component"></app-pedir>
-        <app-reservar class="jumbotron text-center col-lg-5 component"></app-reservar>
+        <app-pedir *ngIf="isCaller" class="jumbotron  col-lg-5 component"></app-pedir>
+        <app-pagar *ngIf="isCaller" class="jumbotron  col-lg-5 component"></app-pagar>
+        <!--<app-admin   class="jumbotron text-center col-lg-5 component"></app-admin>-->
       </div>
     </div>
   </div>

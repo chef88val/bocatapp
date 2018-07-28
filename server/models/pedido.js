@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 var pedidoSchema = Schema({
     title: String,
-    items: [{
+    users: [{
         item: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'BOCATA'
@@ -18,8 +18,9 @@ var pedidoSchema = Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'USER'
         }
+        
     }],
-    users: Array,
+    items: [{type:mongoose.Schema.Types.ObjectId, ref: 'BOCATA'}],
     author: {type:String, default:'system'},
     status: {type:String, default:'draft'},
     caller: {type:mongoose.Schema.Types.ObjectId, ref: 'USER'},
