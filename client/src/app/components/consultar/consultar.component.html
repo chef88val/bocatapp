@@ -14,7 +14,7 @@
 <!-- <ng-template #customTemplate let-model="item.name" let-index="index" let-cod="item._id"></ng-template>
   -->
 <div class="row col-lg-12 form-group">
-
+    <button type="button" [disabled]="currentList.length<1" class="btn btn-info btn-block" (click)="itemsToPEdido()">+</button>
   <!--<div class="form-group ">-->
   <label for="tableItems">Lista de bocatas</label>
   <input id="typeahead-basic" type="text" class="form-control" [(ngModel)]="bocata" (ngModelChange)="addItem(bocata)" [ngbTypeahead]="search"

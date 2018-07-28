@@ -1,36 +1,13 @@
-<form>
+<table style="width:100%">
+    <tr>
+      <th>N</th>
+      <th>Bocata</th> 
+      <th>Size</th>
+    </tr>
+    <tr *ngFor="let item of dataPedido">
 
-  <div class="form-group ">
-    <label for="inputItem">Item</label>
-
-    <input type="email" class="form-control" id="inputItem" placeholder="Item">
-
-  </div>
-
-  <div class="form-group ">
-    <label for="tableItems">Items</label>
-    <table>
-      <tr>
-        <td>1</td>
-      </tr>
-      <tr>
-        <td>2</td>
-      </tr>
-      <tr>
-        <td>3</td>
-      </tr>
-      <tr>
-        <td>4</td>
-      </tr>
-      <tr>
-        <td>5</td>
-      </tr>
-    </table>
-  </div>
-
-  <div class="form-group">
-    <div class="col-sm-12">
-      <button type="submit" class="btn btn-block btn-primary">Añadir</button>
-    </div>
-  </div>
-</form>
+      <td>{{item.n}}</td>
+      <td>{{item.item}}</td> 
+      <td>{{item.size | size}}</td>
+    </tr>
+  </table>

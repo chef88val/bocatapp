@@ -1,0 +1,24 @@
+<table style="width:100%">
+    <tr>
+      <th>N</th>
+      <th>Bocata</th> 
+      <th>Size</th>
+      <th>Usuario</th>
+      <th>€</th>
+      <th>Pagado</th>
+    </tr>
+    <tr *ngFor="let item of dataPedido">
+
+      <td>{{item.n}}</td>
+      <td>{{item.item}}</td> 
+      <td>{{item.size | size}}</td>
+      <td>{{item.user}}</td> 
+      <td>{{item.dinero}}</td> 
+      <td>
+        <span *ngIf="item.pagado">{{item.pagado}}</span>
+        <button *ngIf="!item.pagado" (click)="pagar(item)">Pagar</button>
+      </td> 
+    </tr>
+  </table>
+  <hr>
+  <h1 class="text-center">{{totalPedido | number:'1.2-2'}}</h1>

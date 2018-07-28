@@ -1,4 +1,5 @@
 export class User {
+    public _id: String;
     public name: String;
     public email: String;
     public lastCall: Date;

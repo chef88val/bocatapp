@@ -3,20 +3,24 @@ import { Restangular } from 'ngx-restangular';
 import { Bocata } from '../bocata';
 import { User } from '../user';
 import { Pedido } from '../pedido';
+import { Moment } from 'moment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiRestService {
   private user: User = new User();
+  private pedido: Pedido = new Pedido(null, null);
+  private moment: Moment;
 
   constructor(private _restangular: Restangular) { }
 
   isUser(): Boolean {
     console.log(('_id' in this.user)); return '_id' in this.user;
   }
-  returnUser(): User { return this.user; }
-  getBocatas()  {
+  returnUser(): User {console.log('user', this.user); return this.user; }
+  returnPedido(): Pedido { return this.pedido; }
+  getBocatas() {
     const response = this._restangular.one('bocata').get();
     return response.toPromise().then((bocata) => {
       return bocata;
@@ -48,11 +52,9 @@ export class ApiRestService {
   }
 
   putBocatas(item) {
-    const response = this._restangular.one('bocata', item._id).customPUT(JSON.stringify(item), null, null, { 'Content-Type': undefined });
+    const response = this._restangular.one('bocata', this.pedido._id).customPUT(JSON.stringify(item), null, null, { 'Content-Type': 'application/json' });
     return response.toPromise().then((bocata) => {
       return bocata;
-      /*if(err) return {status:false, value:err};
-      else return {status:true, value:success};*/
     });
   }
 
@@ -69,27 +71,34 @@ export class ApiRestService {
   }
 
   loginUser(user) {
-    console.log('user',user)
-    return  this._restangular.one('user').customPOST(JSON.stringify(user), null, null, { 'Content-Type': 'application/json' })
-    .toPromise().then((result) => {
-      console.log(result);
-      return result;
-    }).catch((err) => {
-      console.log(err)
-      return err;
-    });
-     /*return response.toPromise().then((user) => {
-       console.log('user',user)
-       this.user= user;
-      return user;
-    });*/
+    console.log('user', user)
+    return this._restangular.one('user').customPOST(JSON.stringify(user), null, null, { 'Content-Type': 'application/json' })
+      .toPromise().then((result) => {
+        console.log(result);
+        this.user =result;
+        return result;
+      }).catch((err) => {
+        console.log(err)
+        return err;
+      });
+    /*return response.toPromise().then((user) => {
+      console.log('user',user)
+      this.user= user;
+     return user;
+   });*/
   }
 
-  getPedido(): Pedido {
-    return this._restangular.one().get();
+  getPedido() {
+    const resp = this._restangular.one('pedido').get();
+    return resp.toPromise().then((result) => {
+      this.pedido = result;
+      return result;
+    }).catch((err) => {
+
+    });
   }
   postPedido(item) {
-    const response = this._restangular.one('pedido').customPOST(JSON.stringify(item), null, null, { 'Content-Type': undefined });
+    const response = this._restangular.one('pedido').customPOST(JSON.stringify(item), null, null, { 'Content-Type': 'application/json' });
     return response.toPromise().then((pedido) => {
       return pedido;
       /*if(err) return {status:false, value:err};
@@ -97,8 +106,20 @@ export class ApiRestService {
     });
   }
   putPedido(item) {
-    const response = this._restangular.one('pedido', item._id).customPUT(JSON.stringify(item), null, null, { 'Content-Type': undefined });
-    return response.toPromise().then((pedido) => {
+    console.log(this.pedido)
+    console.log(item)
+    return this._restangular.one('pedido/' + this.pedido._id + '/bocatas')
+      .customPUT(JSON.stringify(item), null, null, { 'Content-Type': 'application/json' })
+      .toPromise().then((pedido) => {
+        return pedido;
+        /*if(err) return {status:false, value:err};
+        else return {status:true, value:success};*/
+      });
+  }
+  book(item){
+    return this._restangular.one('pedido/' + this.pedido._id )
+    .customPUT(JSON.stringify(item), null, null, { 'Content-Type': 'application/json' })
+    .toPromise().then((pedido) => {
       return pedido;
       /*if(err) return {status:false, value:err};
       else return {status:true, value:success};*/

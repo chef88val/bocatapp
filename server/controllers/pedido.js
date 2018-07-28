@@ -13,12 +13,18 @@ function getPedido(req, res, next) {
             Pedido.find({
                     _id: req.params.id,
                     visible: true,
+                    title: utils.returnMomentFormat()
 
                 })
+                .populate('users.user')
+                .populate('users.item')
                 .populate('items.user')
+                .populate('items.bocatas')
                 .populate('items.item')
+                .populate('items')
+                .populate('caller')
                 .exec((err, pedido) => {
-                    console.log(err, pedido)
+                     
                     if (err) return res.status(500).send({
                         message: 'Error en la peticion'
                     })
@@ -31,6 +37,39 @@ function getPedido(req, res, next) {
                     return res.status(200).send({
                         pedido
                     })
+
+                })
+
+        } catch (error) {
+
+        }
+    }else{
+        try {
+            Pedido.findOne({
+                    visible: true,
+                    title: utils.returnMomentFormat()
+
+                })
+                .populate('users.user')
+                .populate('users.item')
+                .populate('items.user')
+                .populate('items.bocatas')
+                .populate('items.item')
+                .populate('items')
+                .populate('caller')
+                .exec((err, pedido) => {
+                    if (err) return res.status(500).send({
+                        message: 'Error en la peticion'
+                    })
+                    if (!pedido || pedido.length < 1)
+                        return res.status(404).send({
+                            message: 'El pedido no existe'
+                        })
+                    //if (pedido &&  pedido.length > 1)
+
+                    return res.status(200).send(
+                        pedido
+                    )
 
                 })
 
@@ -55,20 +94,17 @@ function savePedido(user) {
     });
     try {
         pedido.save((err, _pedido) => {
-            console.log('_pedido' + _pedido)
 
 
         })
         user.lastCall = moment().format()
         var update = user.lastCall
-        console.log(user);
         //user = new User(user);
         User.findByIdAndUpdate(user._id, {
             $set: {
                 lastCall: update
             }
         }, (err, _user) => {
-            console.log('_user' + _user)
         });
 
 
@@ -85,7 +121,35 @@ function updatePedido(req, res, next) {
     if (req.params.id) {
         try {
             var update = req.body;
-            console.log('1', req.body)
+            Pedido.findByIdAndUpdate(req.params.id,
+                //update, 
+                {
+                    $push: {
+                        users: update
+                    }
+                },
+                (err, _pedido) => {
+                    if (err) return res.status(500).send({
+                        message: 'Error en la peticion'
+                    })
+                    if (!_pedido) return res.status(404).send({
+                        message: 'No hay Pedidos disponibles'
+                    })
+                    //if (_pedido) 
+                    return res.status(200).send({
+                        message: "Pedido updated"
+                    })
+                })
+
+        } catch (error) {
+
+        }
+    }
+}
+function updatePedidoBocatas(req, res, next) {
+    if (req.params.id) {
+        try {
+            var update = req.body;
             Pedido.findByIdAndUpdate(req.params.id,
                 //update, 
                 {
@@ -94,7 +158,6 @@ function updatePedido(req, res, next) {
                     }
                 },
                 (err, _pedido) => {
-                    console.log('updatePedido', err)
                     if (err) return res.status(500).send({
                         message: 'Error en la peticion'
                     })
@@ -123,5 +186,6 @@ module.exports = {
     getPedido,
     savePedido,
     deletePedido,
-    updatePedido
+    updatePedido,
+    updatePedidoBocatas
 };

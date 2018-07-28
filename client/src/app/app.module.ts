@@ -15,6 +15,8 @@ import { AdminComponent } from './components/admin/admin.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LoginComponent } from './components/extras/login/login.component';
 import { FormsModule } from '@angular/forms';
+import { PagarComponent } from './components/pagar/pagar.component';
+import { SizePipe } from './size.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +27,9 @@ import { FormsModule } from '@angular/forms';
     FooterComponent,
     AdminComponent,
     ProfileComponent,
-    LoginComponent
+    LoginComponent,
+    PagarComponent,
+    SizePipe
   ],
   imports: [
     BrowserModule,
