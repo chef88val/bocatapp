@@ -4,7 +4,7 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 
 var pedidoSchema = Schema({
-    title: String,
+    title: { type : String , unique : true, required : true, dropDups: true },
     users: [{
         item: {
             type: mongoose.Schema.Types.ObjectId,

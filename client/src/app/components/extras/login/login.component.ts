@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   login(user) {
     console.log(user);
-    this._api.loginUser(user).then(data =>{if('_id' in data){this.main.setUser(data);this.main.checkUser(true)}else{this.main.checkUser(false)} console.log('1',data)});
+    this._api.loginUser(user).then(data =>{if('_id' in data){this.main.setUser(data.name);this.main.checkUser(true)}else{this.main.checkUser(false)} console.log('1',data)});
     
     //console.log('resp',resp);
     /*.then((data)=>{

@@ -106,8 +106,9 @@ function saveUser(req, res, next) {
     })
 }
 
-function updateCallerUser(user) {
-
+function updateCallerUser(req, res, next) {
+var user = req.body;
+var id= req.params.id
     try {
         user.lastCall = moment().format();
         User.findByIdAndUpdate(id, user, {
@@ -128,6 +129,7 @@ function updateCallerUser(user) {
     } catch (error) {
 
     }
+    next();
 }
 
 
@@ -180,13 +182,41 @@ function updateUser(req, res, next) {
 
 
     }
+    next();
 }
 
 function deleteUser(req, res, next) {
-    res.status(200).send({
+    return res.status(200).send({
         message: "deleteUser OK"
     })
+
 }
+
+
+function updateKeyUser(req, res, next) {
+    var key= req.params.key
+    var user ={}
+       user[key]= utils.valueToBoolean(req.params.value);
+   try {
+       User.findByIdAndUpdate(req.params.id,  user, (err, _user) => {
+           console.log(_user,'updateUser', err)
+           if (err) return res.status(500).send({
+               message: 'Error en la peticion'
+           })
+           if (!_user) return res.status(404).send({
+               message: 'No hay Users disponibles'
+           })
+           //if (_user) 
+           return res.status(200).send({
+               message: "User updated"
+           })
+       })
+   } catch (error) {
+
+   }
+   //next();
+}
+
 
 module.exports = {
     getUser,
@@ -195,5 +225,6 @@ module.exports = {
     updateCallerUser,
     deleteUser,
     updateUser,
-    getLoginUser
+    getLoginUser,
+    updateKeyUser
 };

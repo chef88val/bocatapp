@@ -17,6 +17,7 @@ import { LoginComponent } from './components/extras/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { PagarComponent } from './components/pagar/pagar.component';
 import { SizePipe } from './size.pipe';
+import { ProfilePipe } from './profile.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,8 @@ import { SizePipe } from './size.pipe';
     ProfileComponent,
     LoginComponent,
     PagarComponent,
-    SizePipe
+    SizePipe,
+    ProfilePipe
   ],
   imports: [
     BrowserModule,

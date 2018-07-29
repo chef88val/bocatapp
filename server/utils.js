@@ -4,11 +4,30 @@ function stringToBoolean(val) {
     console.log(isNaN(val) + typeof val)
     try {
         if (isNaN(val))
-            return val == 'true' || 1;
+            return val == 'true';
+         
+    } catch (error) {}
+}
+
+function numberToBoolean(val) {
+    console.log(isNaN(val) + typeof val)
+    try {
+
+            return parseInt(val) == 1;
+    } catch (error) {}
+}
+
+
+function valueToBoolean(val) {
+    console.log(isNaN(val) + typeof val)
+    try {
+        if (isNaN(val))
+            return val == 'true';
         else
             return parseInt(val) == 1;
     } catch (error) {}
 }
+
 
 function returnMomentFormat() {
     return moment().format("DD/MM/YYYY");
@@ -56,7 +75,7 @@ Object.keys(ifaces).forEach(function (ifname) {
 return address;
 }
 module.exports = {
-    stringToBoolean,
+    stringToBoolean, numberToBoolean, valueToBoolean,
     returnMomentFormat,
     makeMigration,
     getIPAddress

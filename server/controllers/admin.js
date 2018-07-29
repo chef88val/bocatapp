@@ -1,6 +1,8 @@
  var fs = require('fs');
+ var User = require('../models/user')
+ var Pedido = require('../models/pedido')
  var dataAdmin = require('../dataAdmin');
-
+var utils = require('../utils')
 
  function getPassword(req, res, next) {
      if (req.params.password) {

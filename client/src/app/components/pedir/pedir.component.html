@@ -1,13 +1,15 @@
-<table style="width:100%">
+<button type="button" class="btn btn-info btn-block" (click)="nextStep()">+</button>
+
+<table class="table table-hover" style="width:100%">
     <tr>
-      <th>N</th>
-      <th>Bocata</th> 
-      <th>Size</th>
+      <th class="text-center">N [disabled]="!(isBooked)"</th>
+      <th class="text-center">Bocata</th> 
+      <th class="text-center">Size</th>
     </tr>
     <tr *ngFor="let item of dataPedido">
 
-      <td>{{item.n}}</td>
-      <td>{{item.item}}</td> 
-      <td>{{item.size | size}}</td>
+      <td class="text-center">{{item.n}}</td>
+      <td class="text-center">{{item.item}}</td> 
+      <td class="text-center">{{item.size | size}}</td>
     </tr>
   </table>

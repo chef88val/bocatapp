@@ -10,7 +10,7 @@ import { Moment } from 'moment';
 })
 export class ApiRestService {
   private user: User = new User();
-  private pedido: Pedido = new Pedido(null, null);
+  private pedido: Pedido = new Pedido(null, null, null,null);
   private moment: Moment;
 
   constructor(private _restangular: Restangular) { }
@@ -66,7 +66,7 @@ export class ApiRestService {
 
   getUser(id): User {
     return this._restangular.one('user', id).get().toPromise().then((user) => {
-      return user;
+      return user.name;
     });
   }
 
@@ -108,6 +108,7 @@ export class ApiRestService {
   putPedido(item) {
     console.log(this.pedido)
     console.log(item)
+
     return this._restangular.one('pedido/' + this.pedido._id + '/bocatas')
       .customPUT(JSON.stringify(item), null, null, { 'Content-Type': 'application/json' })
       .toPromise().then((pedido) => {
@@ -120,6 +121,26 @@ export class ApiRestService {
     return this._restangular.one('pedido/' + this.pedido._id )
     .customPUT(JSON.stringify(item), null, null, { 'Content-Type': 'application/json' })
     .toPromise().then((pedido) => {
+      return pedido;
+      /*if(err) return {status:false, value:err};
+      else return {status:true, value:success};*/
+    });
+  }
+
+  updateKeyValue(key, value) {
+    const response = this._restangular.one('user', this.user._id).one(key, value)
+    .customPUT(JSON.stringify({}), null, null, { 'Content-Type': 'application/json' });
+    return response.toPromise().then((user) => {
+      return user;
+      /*if(err) return {status:false, value:err};
+      else return {status:true, value:success};*/
+    });
+  }
+
+  updateStatusPedido(key, value) {
+    const response = this._restangular.one('pedido', this.pedido._id).one(key, value)
+    .customPUT(JSON.stringify({}), null, null, { 'Content-Type': 'application/json' });
+    return response.toPromise().then((pedido) => {
       return pedido;
       /*if(err) return {status:false, value:err};
       else return {status:true, value:success};*/

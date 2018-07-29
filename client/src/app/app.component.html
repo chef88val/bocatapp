@@ -24,36 +24,41 @@
   </li>
 </ul>-->
 <br>
+<!--<pre>navbar:{{navbar}}/{{isAdmin}}</pre>
+<pre>use:{{user | json}}</pre>-->
+<pre>pedido:{{pedido | json}}</pre>
 <div *ngIf="!isUser">
   <app-login></app-login>
 </div>
 <div *ngIf="isUser" class="container-fluid">
-  <!--<app-navbar></app-navbar>-->
+  <app-navbar *ngIf="isAdmin || navbar"></app-navbar>
   <div class="row ">
     <div class="col-md-12">
       <div class="jumbotron">
         <h2>
-          Hello, world!
+          Hello, {{user.name}}!
         </h2>
         
         <p>
-          This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and
-          three supporting pieces of content. Use it as a starting point to create something more unique.
+          Bienvenido a tu aplicación para pedir los bocadillos del {{pedido.title}}
         </p>
         <p>
-          <a class="btn btn-primary btn-large" href="#">Learn more</a>
+          <a class="btn btn-primary btn-large"  >{{user.role}}</a>
+          <a class="btn btn-primary btn-large"  >{{user.email}}</a>
+          <a class="btn btn-primary btn-large"  >{{user.profile | profile}}</a>
         </p>
       </div> 
       <div class="row justify-content-around">
-        <app-consultar *ngIf="isCaller" class="jumbotron text-center col-lg-5 component"></app-consultar>
-        <app-reservar   class="jumbotron text-center col-lg-5 component"></app-reservar>
+        <app-consultar [hidden]="pedido.status !=='draft'" *ngIf="isCaller" class="jumbotron text-center col-lg-5 component"></app-consultar>
+        <app-reservar  [hidden]="pedido.status ==='draft' || pedido.status ==='pedido' || pedido.status ==='cerrado'" class="jumbotron text-center col-lg-5 component"></app-reservar>
       </div>
       <div class="row  justify-content-around">
-        <app-pedir *ngIf="isCaller" class="jumbotron  col-lg-5 component"></app-pedir>
-        <app-pagar *ngIf="isCaller" class="jumbotron  col-lg-5 component"></app-pagar>
+        <app-pedir [hidden]="pedido.status !=='consultado'" *ngIf="isCaller" class="jumbotron  col-lg-5 component"></app-pedir>
+        <app-pagar [hidden]="pedido.status !=='pedido'" *ngIf="isCaller" class="jumbotron  col-lg-5 component"></app-pagar>
         <!--<app-admin   class="jumbotron text-center col-lg-5 component"></app-admin>-->
       </div>
     </div>
   </div>
-  <app-footer></app-footer>
+
+  <app-footer [user]="user"></app-footer>
 </div>

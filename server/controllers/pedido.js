@@ -155,7 +155,8 @@ function updatePedidoBocatas(req, res, next) {
                 {
                     $push: {
                         items: update
-                    }
+                    },
+                    status:'consultado'
                 },
                 (err, _pedido) => {
                     if (err) return res.status(500).send({
@@ -182,10 +183,37 @@ function deletePedido(req, res, next) {
     })
 }
 
+
+function updateStatusPedido(req, res, next) {
+    var key= req.params.key
+    var pedido ={}
+       pedido[key]= req.params.value;
+   try {
+    Pedido.findByIdAndUpdate(req.params.id,  pedido, (err, _pedido) => {
+           console.log(_pedido,'updatePedido', err)
+           if (err) return res.status(500).send({
+               message: 'Error en la peticion'
+           })
+           if (!_pedido) return res.status(404).send({
+               message: 'No hay Pedidos disponibles'
+           })
+           //if (_pedido) 
+           return res.status(200).send({
+               message: "Pedido updated"
+           })
+       })
+   } catch (error) {
+
+   }
+   //next();
+}
+
+
 module.exports = {
     getPedido,
     savePedido,
     deletePedido,
     updatePedido,
-    updatePedidoBocatas
+    updatePedidoBocatas,
+    updateStatusPedido
 };

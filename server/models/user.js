@@ -4,8 +4,8 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 
 var userSchema = Schema({
-    name: String,
-    email: String,
+    name: { type : String , unique : true, required : true, dropDups: true },
+    email: { type : String , unique : true, required : true, dropDups: true },
     money: {type:Number, default:0},
     lastCall: Date,
     profile:  {type:String,enum: ['SF'], default:'SF'},
