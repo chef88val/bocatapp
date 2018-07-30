@@ -11,6 +11,7 @@ var moment = require('moment')
 var controllerPedido = require('./controllers/pedido');
 var controllerUser = require('./controllers/user');
 var _ = require('lodash')
+var senderEmails = require('./sendemails')
 
 module.exports =  app;
 app.use(bodyParser.urlencoded({
@@ -43,28 +44,7 @@ global.fnPagination = (page) => {
 var nodeoutlook = require('nodejs-nodemailer-outlook')
 var caller;
 
-function sendEmail(currentPedido) {
-    var authEmail = JSON.parse(fs.readFileSync('./config.json', 'utf-8'))
-    try {
-        console.log(caller, 'try', authEmail)
-        nodeoutlook.sendEmail({
-            auth: {
-                user: authEmail.user,
-                pass: authEmail.pass
-            },
-            from: 'jsegarrm@everis.com',
-            to: listUsersToNotify,
-            subject: `Pedido del dia ${utils.returnMomentFormat()}!`,
-            html: `Para el dia de hoy ${utils.returnMomentFormat()}, el encargado de llamar será
-            ${caller.name}, usa este <a href='http://${utils.getIPAddress()}'>enlace</a> para llamar.
-            Para el resto, este es vuestro enlace para reservar.`,
-            text: 'This is text version!'
-        });
-    } catch (error) {
-        console.log(error)
-    }
 
-}
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').load();
 }
@@ -88,7 +68,7 @@ setTimeout(() => {
     if (utils.stringToBoolean(process.env.SEND_EMAIL)) {
 
         console.log('111' + process.env.NODE_ENV, typeof process.env.SEND_EMAIL)
-        sendEmail()
+        senderEmails.sendEmail()
 
     }
 }, 2000);
@@ -133,7 +113,7 @@ setTimeout(() => {
     })
 
 
-}, 1000);
+}, 1000);/*
 var CronJob = require('cron').CronJob;
 // Patrón de cron
 // Corre todos los lunes a la 1:00 PM
@@ -154,6 +134,6 @@ new CronJob('00 10 * * 0-5', function () {
         sendEmail()
 
     }
-}, true);
+}, true);*/
 
 

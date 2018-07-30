@@ -1,4 +1,4 @@
-<!--The content below is only a placeholder and can be replaced.-->
+<router-outlet></router-outlet><!--The content below is only a placeholder and can be replaced.-->
 <!--<div style="text-align:center">
   <h1>
     Welcome to {{ title }}!
@@ -23,42 +23,4 @@
     </h2>
   </li>
 </ul>-->
-<br>
-<!--<pre>navbar:{{navbar}}/{{isAdmin}}</pre>
-<pre>use:{{user | json}}</pre>-->
-<pre>pedido:{{pedido | json}}</pre>
-<div *ngIf="!isUser">
-  <app-login></app-login>
-</div>
-<div *ngIf="isUser" class="container-fluid">
-  <app-navbar *ngIf="isAdmin || navbar"></app-navbar>
-  <div class="row ">
-    <div class="col-md-12">
-      <div class="jumbotron">
-        <h2>
-          Hello, {{user.name}}!
-        </h2>
-        
-        <p>
-          Bienvenido a tu aplicación para pedir los bocadillos del {{pedido.title}}
-        </p>
-        <p>
-          <a class="btn btn-primary btn-large"  >{{user.role}}</a>
-          <a class="btn btn-primary btn-large"  >{{user.email}}</a>
-          <a class="btn btn-primary btn-large"  >{{user.profile | profile}}</a>
-        </p>
-      </div> 
-      <div class="row justify-content-around">
-        <app-consultar [hidden]="pedido.status !=='draft'" *ngIf="isCaller" class="jumbotron text-center col-lg-5 component"></app-consultar>
-        <app-reservar  [hidden]="pedido.status ==='draft' || pedido.status ==='pedido' || pedido.status ==='cerrado'" class="jumbotron text-center col-lg-5 component"></app-reservar>
-      </div>
-      <div class="row  justify-content-around">
-        <app-pedir [hidden]="pedido.status !=='consultado'" *ngIf="isCaller" class="jumbotron  col-lg-5 component"></app-pedir>
-        <app-pagar [hidden]="pedido.status !=='pedido'" *ngIf="isCaller" class="jumbotron  col-lg-5 component"></app-pagar>
-        <!--<app-admin   class="jumbotron text-center col-lg-5 component"></app-admin>-->
-      </div>
-    </div>
-  </div>
 
-  <app-footer [user]="user"></app-footer>
-</div>

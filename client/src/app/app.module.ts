@@ -18,6 +18,10 @@ import { FormsModule } from '@angular/forms';
 import { PagarComponent } from './components/pagar/pagar.component';
 import { SizePipe } from './size.pipe';
 import { ProfilePipe } from './profile.pipe';
+import { AppRoutingModule } from './app-routing.module';
+import { ApiRestService } from './services/apiRestService';
+import { RouterOutlet } from '@angular/router';
+import { MainComponent } from './components/main/main.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,17 +35,19 @@ import { ProfilePipe } from './profile.pipe';
     LoginComponent,
     PagarComponent,
     SizePipe,
-    ProfilePipe
+    ProfilePipe,
+    MainComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    AppRoutingModule,
     NgbModule.forRoot(),
     RestangularModule.forRoot(RestangularConfigFactory),
     NgxPermissionsModule.forRoot(),
     TranslateModule.forRoot()
   ],
-  providers: [],
+  providers: [ RouterOutlet, ApiRestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

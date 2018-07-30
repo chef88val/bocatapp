@@ -1,0 +1,39 @@
+<br>
+<pre>navbar:{{navbar}}/{{isAdmin}}</pre>
+<!--<pre>use:{{user | json}}</pre>-->
+<pre>pedido:{{pedido | json}}</pre>
+<div *ngIf="!isUser">
+  <app-login></app-login>
+</div>
+<div *ngIf="isUser" class="container-fluid">
+  <app-navbar *ngIf="isAdmin || navbar"></app-navbar>
+  <div class="row ">
+    <div class="col-md-12">
+      <div class="jumbotron">
+        <h2>
+          Hello, {{user.name}}!
+        </h2>
+        
+        <p>
+          Bienvenido a tu aplicación para pedir los bocadillos del {{pedido.title}}
+        </p>
+        <p>
+          <a class="btn btn-primary btn-large"  >{{user.role}}</a>
+          <a class="btn btn-primary btn-large"  >{{user.email}}</a>
+          <a class="btn btn-primary btn-large"  >{{user.profile | profile}}</a>
+        </p>
+      </div> 
+      <div class="row justify-content-around">
+        <app-consultar  *ngIf="isAdmin || isCaller ||(pedido.status !=='draft')" class="jumbotron text-center col-lg-5 component"></app-consultar>
+        <app-reservar  *ngIf="isAdmin || (pedido.status ==='draft' || pedido.status ==='pedido' || pedido.status ==='cerrado')" class="jumbotron text-center col-lg-5 component"></app-reservar>
+      </div>
+      <div class="row  justify-content-around">
+        <app-pedir  *ngIf="isAdmin || isCaller || (pedido.status !=='consultado')" class="jumbotron  col-lg-5 component"></app-pedir>
+        <app-pagar  *ngIf="isAdmin || isCaller || (pedido.status !=='pedido')" class="jumbotron  col-lg-5 component"></app-pagar>
+        <!--<app-admin   class="jumbotron text-center col-lg-5 component"></app-admin>-->
+      </div>
+    </div>
+  </div>
+
+  <app-footer [user]="user"></app-footer>
+</div>

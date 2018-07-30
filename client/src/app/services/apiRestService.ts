@@ -19,6 +19,7 @@ export class ApiRestService {
     console.log(('_id' in this.user)); return '_id' in this.user;
   }
   returnUser(): User {console.log('user', this.user); return this.user; }
+  setUser(user){this.user=user}
   returnPedido(): Pedido { return this.pedido; }
   getBocatas() {
     const response = this._restangular.one('bocata').get();
@@ -70,8 +71,9 @@ export class ApiRestService {
     });
   }
 
-  loginUser(user) {
+  loginUser(type, user) {
     console.log('user', user)
+    if(type){
     return this._restangular.one('user').customPOST(JSON.stringify(user), null, null, { 'Content-Type': 'application/json' })
       .toPromise().then((result) => {
         console.log(result);
@@ -81,6 +83,17 @@ export class ApiRestService {
         console.log(err)
         return err;
       });
+    }else{
+      return this._restangular.one('user/new').customPOST(JSON.stringify(user), null, null, { 'Content-Type': 'application/json' })
+      .toPromise().then((result) => {
+        console.log(result);
+        this.user =result;
+        return result;
+      }).catch((err) => {
+        console.log(err)
+        return err;
+      });
+    }
     /*return response.toPromise().then((user) => {
       console.log('user',user)
       this.user= user;
