@@ -178,8 +178,16 @@ function updatePedidoBocatas(req, res, next) {
 }
 
 function deletePedido(req, res, next) {
-    res.status(200).send({
-        message: "deletePedido OK"
+    Pedido.findByIdAndUpdate(req.params.id,{visible: false}, (err, _pedido) => {
+        if (err) return res.status(500).send({
+            message: 'Error en la peticion'
+        })
+        if (!_pedido) return res.status(404).send({
+            message: 'No hay Feeds disponible'
+        })
+        return res.status(200).send({
+            message: "Feed deleted"
+        })
     })
 }
 

@@ -22,6 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ApiRestService } from './services/apiRestService';
 import { RouterOutlet } from '@angular/router';
 import { MainComponent } from './components/main/main.component';
+import { AdminItemComponent } from './components/extras/admin-item/admin-item.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +37,8 @@ import { MainComponent } from './components/main/main.component';
     PagarComponent,
     SizePipe,
     ProfilePipe,
-    MainComponent
+    MainComponent,
+    AdminItemComponent
   ],
   imports: [
     BrowserModule,

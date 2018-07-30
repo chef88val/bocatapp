@@ -186,8 +186,16 @@ function updateUser(req, res, next) {
 }
 
 function deleteUser(req, res, next) {
-    return res.status(200).send({
-        message: "deleteUser OK"
+    User.findByIdAndUpdate(req.params.id,{visible: false}, (err, _user) => {
+        if (err) return res.status(500).send({
+            message: 'Error en la peticion'
+        })
+        if (!_user) return res.status(404).send({
+            message: 'No hay Feeds disponible'
+        })
+        return res.status(200).send({
+            message: "Feed deleted"
+        })
     })
 
 }

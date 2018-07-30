@@ -14,6 +14,7 @@ var pedidoSchema = Schema({
             type: String,
             enum: ['p', 'g']
         },
+        extras:[{type: String}],
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'USER'
