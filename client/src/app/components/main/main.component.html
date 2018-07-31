@@ -22,7 +22,17 @@
           <a class="btn btn-primary btn-large"  >{{user.email}}</a>
           <a class="btn btn-primary btn-large"  >{{user.profile | profile}}</a>
         </p>
+        <p class="text-muted">
+          <p *ngIf="user.notify"> Para desactivar las notificaciones haz <a (click)="notifyUpdate(!user.notify)" >aquií</a></p>
+          <p *ngIf="!user.notify"> Para activar las notificaciones haz <a (click)="notifyUpdate(!user.notify)" >aquí</a></p>
+        <p class="text-center text-info lead">
+      BocatApp ha sido desarrollada como proyecto personal. Cualquier sugerencia, comentario, critica escibe un <a href="mailto:jsm.multimedia@gmail.com">correo  </a></p>
       </div> 
+      <h5>El pedido se encuentra {{pedido.status}}</h5>
+      <countdown  [config]="configCounterDown"
+    (start)="onStart()"
+    (finished)="onFinished()"
+    (notify)="onNotify($event)">$!m!:$!s! </countdown>
       <div class="row justify-content-around">
         <app-consultar  *ngIf="isAdmin || isCaller ||(pedido.status !=='draft')" class="jumbotron text-center col-lg-5 component"></app-consultar>
         <app-reservar  *ngIf="isAdmin || (pedido.status ==='draft' || pedido.status ==='pedido' || pedido.status ==='cerrado')" class="jumbotron text-center col-lg-5 component"></app-reservar>
@@ -35,5 +45,5 @@
     </div>
   </div>
 
-  <app-footer [user]="user"></app-footer>
+  <!--<app-footer [user]="user"></app-footer>-->
 </div>

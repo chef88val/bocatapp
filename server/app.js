@@ -48,7 +48,28 @@ var caller;
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').load();
 }
-console.log(typeof process.env.SEND_EMAIL + typeof utils.stringToBoolean(process.env.SEND_EMAIL) + utils.stringToBoolean(process.env.SEND_EMAIL) + typeof process.env.SEND_EMAIL)
+console.log('SEND_EMAIL',typeof process.env.SEND_EMAIL + typeof utils.numberToBoolean(process.env.SEND_EMAIL) + utils.stringToBoolean(process.env.SEND_EMAIL) + typeof process.env.SEND_EMAIL)
+
+const emaails= [
+    {
+        name:'Admin',
+        email: 'jsm.multimedia@gmail.com'
+    },
+    {
+        name:'cowapps',
+        email: 'jsm88.live@gmail.com'
+    },
+    {
+        name:'Javier Segarra Martinez',
+        email: 'jsegarrm@everis.com'
+    },
+    
+]
+console.log('process.env.USER_PARSER',process.env.USER_PARSER,utils.numberToBoolean(process.env.USER_PARSER))
+if(utils.numberToBoolean(process.env.USER_PARSER))
+emaails.forEach(element => {
+    if(controllerUser.saveUser(element)!=null) console.log(element.name)
+});
 
 var listUsers = [];
 var listUsersToNotify = [];

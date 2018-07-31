@@ -100,10 +100,26 @@ function getLoginUser(req, res, next) {
 }
 
 
-function saveUser(req, res, next) {
-    res.status(200).send({
-        message: "saveUser OK"
-    })
+function saveUser(user) {
+     var res;
+     let _user = new User(user);
+    try {
+        console.log('1',user)
+        console.log('11',_user)
+        User.create(_user,{new:true}, (err, __user) => {
+            console.log('2',__user)
+            console.log('3',err)
+res = __user;
+          /*  if (err) return err
+            if (!_user) return null
+            return _user*/
+
+        })
+    } catch (error) {
+        return error
+    }
+    console.log('res',res)
+
 }
 
 function updateCallerUser(req, res, next) {

@@ -4,6 +4,8 @@ import { ApiRestService } from '../../services/apiRestService';
 import { Pedido } from '../../pedido';
 import { LoginComponent } from '../extras/login/login.component';
 import { environment } from '../../../environments/environment';
+import { CountdownComponent } from 'ngx-countdown';
+import  * as moment  from "moment";
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -11,18 +13,25 @@ import { environment } from '../../../environments/environment';
 })
 export class MainComponent implements OnInit {
   public user: User = new User(null, null, 'jsm.multimedia@gmail.com', 'User', 'SF');
-  private pedido: Pedido = new Pedido(null,null, null,'draft');
+  private pedido: Pedido = new Pedido(null, null, null, 'draft');
   public isUser: Boolean = true;
   public isCaller: Boolean = true;
   public isAdmin: Boolean = true;
   private login: LoginComponent;
   private navbar: Boolean = environment.navbar;
-
+   
+  private configCounterDown: any ={};
   constructor(private _api: ApiRestService) { }
   ngOnInit() {
-    console.log(this.user._id,'1-', this._api.isUser());
+    this.pedido.timeChangeSatus = moment().subtract(10,'minutes')
+    console.log( moment().format())
+    console.log( moment(this.pedido.timeChangeSatus).format())
+    console.log(moment().diff(this.pedido.timeChangeSatus))
+    this.configCounterDown.leftTime = (moment().diff(this.pedido.timeChangeSatus))/1000
+    //this.configCounterDown={leftTime: moment().format()-moment(this.pedido.timeChangeSatus).format()}
+    console.log(this.user._id, '1-', this._api.isUser());
     this.checkRole();
-    this._api.loginUser(false,this.user).then((result) => {
+    this._api.loginUser(false, this.user).then((result) => {
       this.getPedido();
       console.log(result)
       this.user = new User(result._id, result.name, result.email, result.role, result.profile);
@@ -40,16 +49,16 @@ export class MainComponent implements OnInit {
     this.isUser = value;
 
   }
-  checkRole(){
+  checkRole() {
     if (this.user.role !== 'User') { this.isAdmin = true; } else { this.isAdmin = false; }
   }
-getPedido(){
-  this._api.getPedido().then((result) => {
-    console.log('adpp', this.pedido);
-    this.pedido = new Pedido(result._id,result.title, result.caller, result.status);
-  }).catch((err) => {
-  });
-}
+  getPedido() {
+    this._api.getPedido().then((result) => {
+      console.log('adpp', this.pedido);
+      this.pedido = new Pedido(result._id, result.title, result.caller, result.status);
+    }).catch((err) => {
+    });
+  }
   setUser(user) {
     this.user = user.name;
     console.log(this.user, this.pedido);

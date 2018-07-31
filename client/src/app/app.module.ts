@@ -5,6 +5,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { RestangularModule, Restangular } from 'ngx-restangular';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CountdownModule } from 'ngx-countdown';
 import { AppComponent } from './app.component';
 import { PedirComponent } from './components/pedir/pedir.component';
 import { ConsultarComponent } from './components/consultar/consultar.component';
@@ -23,6 +24,8 @@ import { ApiRestService } from './services/apiRestService';
 import { RouterOutlet } from '@angular/router';
 import { MainComponent } from './components/main/main.component';
 import { AdminItemComponent } from './components/extras/admin-item/admin-item.component';
+import { EstadoPedidoPipe } from './estado-pedido.pipe';
+import { CapitalizeFirstPipe } from './capitalize-first.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +41,9 @@ import { AdminItemComponent } from './components/extras/admin-item/admin-item.co
     SizePipe,
     ProfilePipe,
     MainComponent,
-    AdminItemComponent
+    AdminItemComponent,
+    EstadoPedidoPipe,
+    CapitalizeFirstPipe
   ],
   imports: [
     BrowserModule,
@@ -47,7 +52,8 @@ import { AdminItemComponent } from './components/extras/admin-item/admin-item.co
     NgbModule.forRoot(),
     RestangularModule.forRoot(RestangularConfigFactory),
     NgxPermissionsModule.forRoot(),
-    TranslateModule.forRoot()
+    TranslateModule.forRoot(),
+    CountdownModule
   ],
   providers: [ RouterOutlet, ApiRestService],
   bootstrap: [AppComponent]
