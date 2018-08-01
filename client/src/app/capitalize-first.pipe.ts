@@ -13,7 +13,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'capitalizeFirst'
 })
 export class CapitalizeFirstPipe implements PipeTransform {
-  transform(value: string, args: any[]): string {
+  transform(value: string, args?: any[]): string {
     if (value === null || value=== undefined) return 'Not assigned';
     console.log(value)
     return value.charAt(0).toUpperCase() + value.slice(1);

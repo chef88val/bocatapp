@@ -5,4 +5,9 @@ describe('ProfilePipe', () => {
     const pipe = new ProfilePipe();
     expect(pipe).toBeTruthy();
   });
+  it('transform', () => {
+    const pipe = new ProfilePipe();
+    expect(pipe.transform('SF')).toEqual('ECS');
+    expect(pipe.transform('z')).toBeNull();
+  });
 });

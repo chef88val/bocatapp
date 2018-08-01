@@ -7,6 +7,7 @@ export class ProfilePipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
     if (value=='SF') return 'ECS';
+    else return null;
     //else if (value=='g') return 'Grande';
   }
 
