@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiRestService } from '../../services/apiRestService';
 
 @Component({
   selector: 'app-admin',
@@ -16,15 +17,28 @@ import { Component, OnInit } from '@angular/core';
   }
 }*/
 export class AdminComponent implements OnInit {
-
+private isAdmin: Boolean =true;
+private userAdminLogin: any ={}
   /*private const item=[
     'bocata' : {},
     'pedido' : {},
     'user' : {},
   ]*/
-  constructor() { }
+  constructor(private _api: ApiRestService) { }
 
   ngOnInit() {
+    if(this._api.returnUser().role==='Admin'){
+      this.isAdmin = true;
+    }
+  }
+  login(value){
+    this._api.getAdminPassword(value).then((res)=>{
+      console.log(res)
+      return res;
+    }).catch((res)=>{
+      console.log(res)
+      return res;
+    });
   }
 
 }

@@ -65,7 +65,6 @@ function updateBocata(req, res, next) {
     if (req.params.id) {
         try {
             var update = req.body;
-            console.log('1', req.body)
             update.visible = true;
             Bocata.findByIdAndUpdate(req.params.id, update, {
                 new: true

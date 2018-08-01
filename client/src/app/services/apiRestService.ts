@@ -22,6 +22,14 @@ export class ApiRestService {
       return admin;
     });
   }
+  getAdminPassword(value) {
+    const response = this._restangular.one('admin/password', value).customPOST({}, null, null, { 'Content-Type': 'application/json' });
+    return response.toPromise().then((bocata) => {
+      return bocata;
+      /*if(err) return {status:false, value:err};
+      else return {status:true, value:success};*/
+    });
+  }
 
   isUser(): Boolean {
     console.log(('_id' in this.user)); return '_id' in this.user;
