@@ -11,6 +11,7 @@
       <input type="text" [(ngModel)]="item.name" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
     </div>
     <button type="button" (click)="create(item)" class="btn btn-block btn-info">Create {{info}}</button>
+    <hr>
     <div class="form-group">
       <label for="exampleDropdownFormEmail2">{{info | capitalizeFirst}} Id</label>
       <input type="email" [(ngModel)]="item.email" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 // Import your library
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { RestangularModule, Restangular } from 'ngx-restangular';
+import { CookieModule } from 'ngx-cookie';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CountdownModule } from 'ngx-countdown';
@@ -53,6 +54,7 @@ import { CapitalizeFirstPipe } from './capitalize-first.pipe';
     RestangularModule.forRoot(RestangularConfigFactory),
     NgxPermissionsModule.forRoot(),
     TranslateModule.forRoot(),
+    CookieModule.forRoot(),
     CountdownModule
   ],
   providers: [ RouterOutlet, ApiRestService],

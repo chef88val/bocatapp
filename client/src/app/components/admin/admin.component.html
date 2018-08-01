@@ -12,6 +12,7 @@
         <label for="exampleDropdownFormEmail2">Password</label>
         <input type="password" [(ngModel)]="userAdminLogin.value" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
       </div>
+      <hr>
       <button type="button" [disabled]="!userAdminLogin.value" *ngIf="!isNew" (click)="login(userAdminLogin.value)" class="btn btn-block btn-primary">Log in</button>
     </div>
   </div>

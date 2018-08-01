@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "mailparser" : " node index.js && node mailparser.js",
+    "mailparser": " node index.js && node mailparser.js",
     "mailing": "node  sendemail.js"
   },
   "author": "jsegarrm",

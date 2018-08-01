@@ -14,11 +14,17 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Estadisticas</a>
+            <a class="nav-link disabled">Estadisticas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled">Administración</a>
           </li>
         </ul>
         <ul class="navbar-nav ml-md-auto">
-          <li class="nav-item dropdown">
+            <li *ngIf="isUser" class="nav-item">
+                <button type="button" (click)="logout()" class="btn btn-danger nav-link text-white ">LogOut</button>
+              </li>
+          <!--<li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle"  id="navbarDropdownMenuLink" data-toggle="dropdown">Perfil</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="#">Perfil</a>
@@ -28,7 +34,7 @@
               </div>
               <a class="dropdown-item" href="#">LogOut</a>
             </div>
-          </li>
+          </li>-->
         </ul>
       </div>
     </nav>

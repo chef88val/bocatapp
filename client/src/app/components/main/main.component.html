@@ -1,6 +1,6 @@
 <br>
 <pre>navbar:{{navbar}}/{{isAdmin}}</pre>
-<!--<pre>use:{{user | json}}</pre>-->
+<pre>{{isUser}}use:{{user | json}}</pre>
 <pre>pedido:{{pedido | json}}</pre>
 <div *ngIf="!isUser">
   <app-login></app-login>
@@ -13,33 +13,46 @@
         <h2>
           Hello, {{user.name}}!
         </h2>
-        
+
         <p>
           Bienvenido a tu aplicación para pedir los bocadillos del {{pedido.title}}
         </p>
         <p>
-          <a class="btn btn-primary btn-large"  >{{user.role}}</a>
-          <a class="btn btn-primary btn-large"  >{{user.email}}</a>
-          <a class="btn btn-primary btn-large"  >{{user.profile | profile}}</a>
+          <span class="btn btn-primary btn-large">{{user.role}}/{{user.notify}}</span>
+          <span class="btn btn-primary btn-large">{{user.email}}</span>
+          <span class="btn btn-primary btn-large">{{user.profile | profile}}</span>
+          <span *ngIf="user.notify">
+            <button class="btn btn-success" type="button" (click)="notifyUpdate(!user.notify)" placement="top" ngbTooltip="Click para desactivar">Notificaciones Activadas</button>
+          </span>
+          <span *ngIf="!user.notify">
+            <button class="btn btn-block" type="button" (click)="notifyUpdate(!user.notify)" placement="top" ngbTooltip="Click para activar">Notificaciones Desactivadas</button>
+          </span>
         </p>
         <p class="text-muted">
-          <p *ngIf="user.notify"> Para desactivar las notificaciones haz <a (click)="notifyUpdate(!user.notify)" >aquií</a></p>
-          <p *ngIf="!user.notify"> Para activar las notificaciones haz <a (click)="notifyUpdate(!user.notify)" >aquí</a></p>
-        <p class="text-center text-info lead">
-      BocatApp ha sido desarrollada como proyecto personal. Cualquier sugerencia, comentario, critica escibe un <a href="mailto:jsm.multimedia@gmail.com">correo  </a></p>
-      </div> 
-      <h5>El pedido se encuentra {{pedido.status}}</h5>
-      <countdown  [config]="configCounterDown"
-    (start)="onStart()"
-    (finished)="onFinished()"
-    (notify)="onNotify($event)">$!m!:$!s! </countdown>
+          <!--<p *ngIf="user.notify"> Para desactivar las notificaciones haz
+            <a (click)="notifyUpdate(!user.notify)">aquií</a>
+          </p>
+          <p *ngIf="!user.notify"> Para activar las notificaciones haz
+            <a (click)="notifyUpdate(!user.notify)">aquí</a>
+          </p>-->
+          <p class="text-center text-info lead">
+            BocatApp ha sido desarrollada como proyecto personal. Cualquier sugerencia, comentario, critica escibe un
+            <a href="mailto:jsm.multimedia@gmail.com">correo </a>
+          </p>
+      </div>
+      <div class="row col-lg-12">
+        <h3 class="col-lg-12 offset-lg-4">El pedido se encuentra {{pedido.status}}</h3>
+        <!--<countdown class="col-lg-12 offset-lg-5" [config]="configCounterDown" (notify)="onNotify($event)">$!m!:$!s! </countdown>
+        (start)="onStart()"
+          (finished)="onFinished()"-->
+      </div>
       <div class="row justify-content-around">
-        <app-consultar  *ngIf="isAdmin || isCaller ||(pedido.status !=='draft')" class="jumbotron text-center col-lg-5 component"></app-consultar>
-        <app-reservar  *ngIf="isAdmin || (pedido.status ==='draft' || pedido.status ==='pedido' || pedido.status ==='cerrado')" class="jumbotron text-center col-lg-5 component"></app-reservar>
+        <app-consultar *ngIf="isAdmin || isCaller ||(pedido.status !=='draft')" class="jumbotron text-center col-lg-5 component"></app-consultar>
+        <app-reservar *ngIf="isAdmin || (pedido.status ==='draft' || pedido.status ==='pedido' || pedido.status ==='cerrado')" class="jumbotron text-center col-lg-5 component"></app-reservar>
       </div>
       <div class="row  justify-content-around">
-        <app-pedir  *ngIf="isAdmin || isCaller || (pedido.status !=='consultado')" class="jumbotron  col-lg-5 component"></app-pedir>
-        <app-pagar  *ngIf="isAdmin || isCaller || (pedido.status !=='pedido')" class="jumbotron  col-lg-5 component"></app-pagar>
+        <app-pedir *ngIf="isAdmin || isCaller || (pedido.status !=='consultado')" class="jumbotron  col-lg-5 component"></app-pedir>
+        <app-pagar *ngIf="isAdmin || isCaller || (pedido.status !=='pedido')" class="jumbotron  col-lg-5 component"></app-pagar>
         <!--<app-admin   class="jumbotron text-center col-lg-5 component"></app-admin>-->
       </div>
     </div>

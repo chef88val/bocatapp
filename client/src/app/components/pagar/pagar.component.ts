@@ -24,7 +24,7 @@ export class PagarComponent implements OnInit {
     this.formatPedido();
   }
   formatPedido(): any {
-    this.pedido.users=[{ n: 1, item: 'x', size: 'p', user: 'y', pagado: false }]
+    //this.pedido.users=[{ n: 1, item: 'x', size: 'p', user: 'y', pagado: false }]
     this.pedido.users.forEach(element => {
       console.log(element)
       let precio: Number = 0;

@@ -66,7 +66,7 @@ export class ApiRestService {
 
   loginUser(type, user) {
     console.log('user', user)
-    if (type) {
+    if (!type) {
       return this._restangular.one('user').customPOST(JSON.stringify(user), null, null, { 'Content-Type': 'application/json' })
         .toPromise().then((result) => {
           console.log(result);

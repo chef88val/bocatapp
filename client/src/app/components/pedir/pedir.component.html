@@ -1,12 +1,12 @@
 <div class=" row">
   <div class=" text-center col-lg-12 component">
-    <h4> User</h4>
+    <h4> Es hora de hacer el pedido!</h4>
   </div>
 </div>
 <div class="row ">
   <div class="col-lg-12 container ">
-    <button type="button" class="btn btn-info btn-block" (click)="nextStep()">+</button>
-
+    <button type="button" class="btn btn-info btn-block" [disabled]="dataPedido.length<1" (click)="nextStep()">LLama y pide estos bocatas</button>
+    <hr>
     <table class="table table-hover" style="width:100%">
       <tr>
         <th class="text-center">N"</th>

@@ -3,6 +3,8 @@ import { User } from '../../../user';
 import { ApiRestService } from '../../../services/apiRestService';
 import { AppComponent } from '../../../app.component';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { MainComponent } from '../../main/main.component';
+import { CookieService } from 'ngx-cookie';
 
 @Component({
   selector: 'app-login',
@@ -11,11 +13,11 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  private userLogin: User = new User(null,null, 'jsm.multimedia@gmail.com', 'User', 'SF');
+  private userLogin: User = new User(null, null, 'jsm.multimedia@gmail.com', 'User', 'SF');
   public profiles: any = ['-'];
   private email: String;
   private isNew: Boolean = false;
-  constructor(private route: ActivatedRoute, private _route: Router, private _api: ApiRestService, private main: AppComponent) { }
+  constructor(private route: ActivatedRoute, private _route: Router, private cookie: CookieService, private _api: ApiRestService, private main: MainComponent) { }
 
   ngOnInit() {
     console.log('asdasd');
@@ -44,9 +46,12 @@ export class LoginComponent implements OnInit {
     console.log(user);
     this._api.loginUser(this.isNew,user).then(data => { 
       if ('_id' in data) {
-        this._api.setUser(data); 
-        //this.main.checkUser(true) 
-        this._route.navigate(['']);
+        console.log('_id');
+        this._api.setUser(data);
+        this.main.checkUser(true); 
+        this.cookie.put('isLogged', 'true');
+        this.cookie.putObject('userLogged', data);
+        this._route.navigate(['/']);
       } else { 
        // this.main.checkUser(false) 
       }

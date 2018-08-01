@@ -29,6 +29,8 @@
     "font-awesome": "^4.7.0",
     "moment": "^2.22.2",
     "momentjs": "^2.0.0",
+    "ngx-cookie": "^4.0.2",
+    "ngx-cookies": "^1.0.5",
     "ngx-countdown": "^3.0.1",
     "ngx-permissions": "^5.0.0",
     "ngx-restangular": "^3.0.0",

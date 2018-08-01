@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiRestService } from '../../../services/apiRestService';
+import { CookieService } from '../../../../../node_modules/ngx-cookie';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  public isUser:Boolean = false;
+  constructor(private _api:ApiRestService, private cookie: CookieService) { }
 
   ngOnInit() {
+    this.isUser = this._api.isUser();
+  }
+
+  logout(){
+    this.cookie.removeAll()
   }
 
 }
