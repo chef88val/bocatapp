@@ -4,10 +4,17 @@ const dominio = '@everis.com';
 
 function formatContacts() {
     list.forEach((element) => {
-        res.push({
+        var userController = require('./controllers/user')
+        userController.saveUser({
+            name: formatName(element),
+            email: element,
+            profile: 'SF',
+            role: 'user'
+        })
+        /*res.push({
             name: formatName(element),
             email: element
-        })
+        })*/
     });
 }
 

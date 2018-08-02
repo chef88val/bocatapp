@@ -66,10 +66,17 @@ const emaails= [
     
 ]
 console.log('process.env.USER_PARSER',process.env.USER_PARSER,utils.numberToBoolean(process.env.USER_PARSER))
-if(utils.numberToBoolean(process.env.USER_PARSER))
-emaails.forEach(element => {
+if(utils.numberToBoolean(process.env.USER_PARSER)){
+    var emailsParser = require('./emails')
+    emailsParser.formatContacts()
+}
+if(utils.numberToBoolean(process.env.BOCATAS_PARSER)){
+    var bocatasParser = require('./bocatas')
+    bocatasParser.formatBocatas()
+}
+/*emaails.forEach(element => {
     if(controllerUser.saveUser(element)!=null) console.log(element.name)
-});
+});*/
 
 var listUsers = [];
 var listUsersToNotify = [];
