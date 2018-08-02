@@ -35,10 +35,9 @@ function sendStatusEmail(currentPedido, listUsersToNotify) {
             },
             from: 'jsegarrm@everis.com',
             to: listUsersToNotify,
-            subject: `Pedido del dia ${utils.returnMomentFormat()}!`,
+            subject: `Pedido del dia ${utils.returnMomentFormat()}!. Que aproveche!`,
             html: `Para el dia de hoy ${utils.returnMomentFormat()}, el encargado de llamar será
-            ${caller.name}, usa este <a href='http://${utils.getIPAddress()}'>enlace</a> para llamar.
-            Para el resto, este es vuestro enlace para reservar.`,
+            ${currentPedido.caller.name}, usa este <a href='http://${utils.getIPAddress()}'>enlace</a> para reservar tu bocadillo.\n Introduce tu correo largo y selecciona ${currentPedido.caller.profile}`,
             text: 'This is text version!'
         });
     } catch (error) {

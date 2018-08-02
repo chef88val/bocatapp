@@ -58,7 +58,6 @@ export class LoginComponent implements OnInit {
       } else { 
        // this.main.checkUser(false) 
        this.alert.warn('Error');
-       console.log('err', err);
       }
       console.log('1', data)
                if (this.isNew)  this._route.navigate(['']);

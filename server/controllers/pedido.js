@@ -211,7 +211,7 @@ function updateStatusPedido(req, res, next) {
                 message: 'No hay Pedidos disponibles'
             })
             if (_pedido) {
-                sendEmail.sendStatusEmail(_pedido._id, utils.getUsersPedido(_pedido.users))
+                sendEmail.sendStatusEmail(_pedido, utils.getUsersPedido(_pedido.users))
             return res.status(200).send({
                 message: "Pedido updated"
             })}

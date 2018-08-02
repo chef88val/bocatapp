@@ -30,7 +30,7 @@ export class AlertsService {
 
   // subscribe to alerts
   getAlert(alertId?: string): Observable<any> {
-    return this.subject.pipe(filter(((x: Alert) => x && x.alertId === alertId)); //.subscribe();// .filter((x: Alert) => x && x.alertId === alertId);  
+    return this.subject.pipe(filter(((x: Alert) => x && x.alertId === alertId))); //.subscribe();// .filter((x: Alert) => x && x.alertId === alertId);  
   }
 
   // convenience methods
