@@ -7,6 +7,8 @@ import { environment } from '../../../environments/environment';
 import { CountdownComponent } from 'ngx-countdown';
 import * as moment from 'moment';
 import { CookieService } from 'ngx-cookie';
+import { AlertsService } from '../../services/alerts.service';
+import { Alert, AlertType } from '../../alert';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -15,14 +17,14 @@ import { CookieService } from 'ngx-cookie';
 export class MainComponent implements OnInit {
   public user: User = new User(null, null, 'jsm.multimedia@gmail.com', 'User', 'SF');
   private pedido: Pedido = new Pedido(null, null, null, 'draft');
-  public isUser: Boolean = false;
-  public isCaller: Boolean = false;
+  public isUser: Boolean = true;
+  public isCaller: Boolean = true;
   public isAdmin: Boolean = true;
   private login: LoginComponent;
   private navbar: Boolean = environment.navbar;
 
   private configCounterDown: any = { leftTime: (moment().diff(this.pedido.timeChangeSatus)) / 1000 };
-  constructor(private _api: ApiRestService, private cookie: CookieService) { }
+  constructor(private _api: ApiRestService, private cookie: CookieService, private alert: AlertsService) { }
   ngOnInit() {
     this.pedido.timeChangeSatus = moment().subtract(10, 'minutes')
     console.log(moment().format())
@@ -88,7 +90,9 @@ export class MainComponent implements OnInit {
     this._api.updateKeyValue('notify', val).then((result) => {
       console.log('result', result);
       this.user.notify = val;
+      this.alert.success('OK');
     }).catch((err) => {
+      this.alert.error('Error');
       console.log('err', err);
     });
   }

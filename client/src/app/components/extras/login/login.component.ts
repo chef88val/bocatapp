@@ -5,6 +5,8 @@ import { AppComponent } from '../../../app.component';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MainComponent } from '../../main/main.component';
 import { CookieService } from 'ngx-cookie';
+import { Alert, AlertType } from '../../../alert';
+import { AlertsService } from '../../../services/alerts.service';
 
 @Component({
   selector: 'app-login',
@@ -14,10 +16,11 @@ import { CookieService } from 'ngx-cookie';
 export class LoginComponent implements OnInit {
 
   private userLogin: User = new User(null, null, 'jsm.multimedia@gmail.com', 'User', 'SF');
-  public profiles: any = ['-'];
+  public profiles: any = ['-', 'SF'];
   private email: String;
   private isNew: Boolean = false;
-  constructor(private route: ActivatedRoute, private _route: Router, private cookie: CookieService, private _api: ApiRestService, private main: MainComponent) { }
+  constructor(private route: ActivatedRoute, private _route: Router, private cookie: CookieService,
+     private _api: ApiRestService, private main: MainComponent,  private alert: AlertsService ) { }
 
   ngOnInit() {
     console.log('asdasd');
@@ -45,7 +48,7 @@ export class LoginComponent implements OnInit {
   login(user) {
     console.log(user);
     this._api.loginUser(this.isNew,user).then(data => { 
-      if ('_id' in data) {
+      if ('_id' in data || data.status>0) {
         console.log('_id');
         this._api.setUser(data);
         this.main.checkUser(true); 
@@ -54,9 +57,13 @@ export class LoginComponent implements OnInit {
         this._route.navigate(['/']);
       } else { 
        // this.main.checkUser(false) 
+       this.alert.warn('Error');
+       console.log('err', err);
       }
       console.log('1', data)
                if (this.isNew)  this._route.navigate(['']);
+               this.alert.success('OK');
+         }).catch((err)=>{
 
          });
 

@@ -27,6 +27,10 @@ import { MainComponent } from './components/main/main.component';
 import { AdminItemComponent } from './components/extras/admin-item/admin-item.component';
 import { EstadoPedidoPipe } from './estado-pedido.pipe';
 import { CapitalizeFirstPipe } from './capitalize-first.pipe';
+import { AlertComponent } from './components/extras/alert/alert.component';
+import { MultiAlertsComponent } from './components/extras/multi-alerts/multi-alerts.component';
+import { MultiAlertsSectionComponent } from './components/extras/multi-alerts-section/multi-alerts-section.component';
+import { AlertsService } from './services/alerts.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +48,10 @@ import { CapitalizeFirstPipe } from './capitalize-first.pipe';
     MainComponent,
     AdminItemComponent,
     EstadoPedidoPipe,
-    CapitalizeFirstPipe
+    CapitalizeFirstPipe,
+    AlertComponent,
+    MultiAlertsComponent,
+    MultiAlertsSectionComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +64,7 @@ import { CapitalizeFirstPipe } from './capitalize-first.pipe';
     CookieModule.forRoot(),
     CountdownModule
   ],
-  providers: [ RouterOutlet, ApiRestService],
+  providers: [ RouterOutlet, ApiRestService, AlertsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
