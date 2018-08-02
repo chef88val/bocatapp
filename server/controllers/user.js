@@ -43,7 +43,7 @@ function getUsers(profile) {
             visible: true,
             notify: true,
             profile,
-            role: 'User'
+            role: 'user' || 'User'
             /*$and:[
                 {$or:[{lastCall:{ $exists: false }}]}, 
                 {$or:[{lastCall: {"$gte": moment().format(),"$lt":moment().subtract(7, 'days')}}]}

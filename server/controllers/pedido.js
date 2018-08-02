@@ -5,6 +5,7 @@ var path = require('path');
 var fs = require('fs');
 var moment = require('moment')
 var utils = require('../utils')
+var sendEmail = require('../sendemails')
 
 
 function getPedido(req, res, next) {
@@ -24,7 +25,7 @@ function getPedido(req, res, next) {
                 .populate('items')
                 .populate('caller')
                 .exec((err, pedido) => {
-                     
+
                     if (err) return res.status(500).send({
                         message: 'Error en la peticion'
                     })
@@ -43,7 +44,7 @@ function getPedido(req, res, next) {
         } catch (error) {
 
         }
-    }else{
+    } else {
         try {
             Pedido.findOne({
                     visible: true,
@@ -92,9 +93,11 @@ function savePedido(user) {
         pubDate: moment(),
         visible: true
     });
+    console.log('pedido', pedido)
     try {
         pedido.save((err, _pedido) => {
-
+            console.log('_pedido', _pedido)
+            console.log('err', err)
 
         })
         user.lastCall = moment().format()
@@ -104,8 +107,7 @@ function savePedido(user) {
             $set: {
                 lastCall: update
             }
-        }, (err, _user) => {
-        });
+        }, (err, _user) => {});
 
 
     } catch (error) {
@@ -146,6 +148,7 @@ function updatePedido(req, res, next) {
         }
     }
 }
+
 function updatePedidoBocatas(req, res, next) {
     if (req.params.id) {
         try {
@@ -156,7 +159,7 @@ function updatePedidoBocatas(req, res, next) {
                     $push: {
                         items: update
                     },
-                    status:'consultado'
+                    status: 'consultado'
                 },
                 (err, _pedido) => {
                     if (err) return res.status(500).send({
@@ -178,7 +181,9 @@ function updatePedidoBocatas(req, res, next) {
 }
 
 function deletePedido(req, res, next) {
-    Pedido.findByIdAndUpdate(req.params.id,{visible: false}, (err, _pedido) => {
+    Pedido.findByIdAndUpdate(req.params.id, {
+        visible: false
+    }, (err, _pedido) => {
         if (err) return res.status(500).send({
             message: 'Error en la peticion'
         })
@@ -193,27 +198,29 @@ function deletePedido(req, res, next) {
 
 
 function updateStatusPedido(req, res, next) {
-    var key= req.params.key
-    var pedido ={}
-       pedido[key]= req.params.value;
-   try {
-    Pedido.findByIdAndUpdate(req.params.id,  pedido, (err, _pedido) => {
-           console.log(_pedido,'updatePedido', err)
-           if (err) return res.status(500).send({
-               message: 'Error en la peticion'
-           })
-           if (!_pedido) return res.status(404).send({
-               message: 'No hay Pedidos disponibles'
-           })
-           //if (_pedido) 
-           return res.status(200).send({
-               message: "Pedido updated"
-           })
-       })
-   } catch (error) {
+    var key = req.params.key
+    var pedido = {}
+    pedido[key] = req.params.value;
+    try {
+        Pedido.findByIdAndUpdate(req.params.id, pedido).exec((err, _pedido) => {
+            console.log(_pedido, 'updatePedido', err)
+            if (err) return res.status(500).send({
+                message: 'Error en la peticion'
+            })
+            if (!_pedido) return res.status(404).send({
+                message: 'No hay Pedidos disponibles'
+            })
+            if (_pedido) {
+                sendEmail.sendStatusEmail(_pedido._id, utils.getUsersPedido(_pedido.users))
+            return res.status(200).send({
+                message: "Pedido updated"
+            })}
+        })
+    } catch (error) {
 
-   }
-   //next();
+    }
+    console.log('asdasd')
+    //next();
 }
 
 

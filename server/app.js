@@ -110,7 +110,8 @@ function initPedidoDay(profile) {
             console.log('-' + users.length)
             users.forEach((user) => {
                 if (!(listUsersToNotify.includes(user.email))) listUsersToNotify.push(user.email)
-                if ((isNaN(user.lastCall) || user.lastCall != null) && !(moment(user.lastCall).isBetween(moment().subtract(7, 'days'), moment().format()))) {
+                if ((isNaN(user.lastCall) || user.lastCall != null) &&
+                 !(moment(user.lastCall).isBetween(moment().subtract(listUsersToNotify.length || 7, 'days'), moment().format()))) {
                     listUsers.push(user)
                 }
             })
@@ -123,7 +124,8 @@ function initPedidoDay(profile) {
         caller = listUsers[numberRandom]
         console.log(numberRandom, caller)
         console.log('-' + listUsersToNotify.length)
-        if (utils.stringToBoolean(process.env.SAVE_PEDIDO))
+        console.log(utils.numberToBoolean(process.env.SAVE_PEDIDO),'process.env.SAVE_PEDID',process.env.SAVE_PEDIDO)
+        if (utils.numberToBoolean(process.env.SAVE_PEDIDO))
             currentPedido = controllerPedido.savePedido(caller)
         /*.exec((err, pedido)=>{
             controllerUser.updateCallerUser(caller).exec((err, ok)=>{
@@ -137,6 +139,7 @@ function initPedidoDay(profile) {
 setTimeout(() => {
     console.log(dataAdmin)
     dataAdmin.profilesAPI.forEach((profile) => {
+        console.log('profileAPI', profile)
         initPedidoDay(profile)
     })
 

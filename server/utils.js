@@ -74,9 +74,17 @@ Object.keys(ifaces).forEach(function (ifname) {
 });
 return address;
 }
+
+function getUsersPedido(users){
+    var res =[];
+    users.forEach(element => {
+        res.push(element.user.email);
+    });
+    return res;
+}
 module.exports = {
     stringToBoolean, numberToBoolean, valueToBoolean,
     returnMomentFormat,
     makeMigration,
-    getIPAddress
+    getIPAddress,getUsersPedido
 }
