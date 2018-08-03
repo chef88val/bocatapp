@@ -24,35 +24,37 @@ export class PagarComponent implements OnInit {
     this.formatPedido();
   }
   formatPedido(): any {
-    //this.pedido.users=[{ n: 1, item: 'x', size: 'p', user: 'y', pagado: false }]
+    // this.pedido.users=[{ n: 1, item: 'x', size: 'p', user: 'y', pagado: false }]
+     
     this.pedido.users.forEach(element => {
-      console.log(element)
       let precio: Number = 0;
       if (element.size === 'p') { precio = 1.6 * 1; } else if (element.size === 'g') { precio = 1.8 * 1; }
-      this.item = new ItemPagar(element.item._id, 1, element.item.name, element.size, element.user.name, precio, false);
-      this.dataPedido.push(this.item);
-      this.totalPedido = (this.totalPedido).valueOf() + (precio).valueOf();
+       
+      this.addItem(element, precio);
     });
+  }
+  addItem(element, precio){
+    this.dataPedido.push(new ItemPagar(element.item._id, 1, element.item.name, element.size, element.user.name, precio, false));
+    this.totalPedido = (this.totalPedido).valueOf() + (precio).valueOf();
   }
 
   pagar(item) {
-    
     item.pagado = !item.pagado;
-    console.log(item)
-    if(item.pagado){
-    this.totalPedido = ((this.totalPedido).valueOf() - (item.dinero).valueOf());
-    this.nPagados = +this.nPagados + +this.inc; // this.nPagados+ 1;
-    if(this.nPagados === this.dataPedido.length){
-      this.isPagado =true;
-      //this.nextStep();
+    console.log(item);
+    if (item.pagado) {
+      this.totalPedido = ((this.totalPedido).valueOf() - (item.dinero).valueOf());
+      this.nPagados = +this.nPagados + +this.inc; // this.nPagados+ 1;
+      if (this.nPagados === this.dataPedido.length) {
+        this.isPagado = true;
+        // this.nextStep();
+      }
+    } else {
+      this.isPagado = false;
+      this.totalPedido = ((this.totalPedido).valueOf() + (item.dinero).valueOf());
+      this.nPagados = +this.nPagados - +this.inc; // this.nPagados+ 1;
     }
-  }else{
-    this.isPagado =false;
-    this.totalPedido = ((this.totalPedido).valueOf() + (item.dinero).valueOf());
-    this.nPagados = +this.nPagados - +this.inc; // this.nPagados+ 1;
   }
-  }
-  nextStep(){
+  nextStep() {
     this.pedido.status = 'cerrado';
     this._api.updateStatusPedido('status', 'cerrado').then(data => { if ('_id' in data) { console.log('1', data) } });
 

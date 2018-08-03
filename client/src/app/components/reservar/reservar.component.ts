@@ -4,6 +4,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ApiRestService } from '../../services/apiRestService';
 import { Bocata } from '../../bocata';
 import { Book } from '../../book';
+import { User } from '../../user';
 
 @Component({
   selector: 'app-reservar',
@@ -13,12 +14,14 @@ import { Book } from '../../book';
 export class ReservarComponent implements OnInit {
   private listBocatas: Bocata[] = [];
   private book: Book = null;
+  private user: any;
   constructor(private _api: ApiRestService) { }
 
   ngOnInit() {
     this.listBocatas = this._api.returnPedido().items;
-    console.log('this._api.returnUser()._id', this._api.returnUser()._id);
-    this.book = new Book(null, this._api.returnUser()._id, null, null);
+    this.user = this._api.returnUser();
+    console.log('this._api.returnUser()._id', this._api.returnUser());
+    this.book = new Book(null, this.user._id , null, null);
   }
   search = (text$: Observable<string>) =>
     text$.pipe(

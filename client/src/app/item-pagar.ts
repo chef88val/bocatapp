@@ -6,7 +6,7 @@ export class ItemPagar {
     public dinero: Number;
     public pagado: Boolean;
     public user: String;
-    constructor(id:String, n: Number, item: string, size: String, user: String,dinero: Number,pagado: Boolean) {
+    constructor(id:String, n: Number, item: string, size: String, user: String, dinero: Number, pagado: Boolean) {
       this.id = id;
       this.item = item;
       this.size = size;

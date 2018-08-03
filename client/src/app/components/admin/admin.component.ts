@@ -27,16 +27,17 @@ private userAdminLogin: any ={}
   constructor(private _api: ApiRestService) { }
 
   ngOnInit() {
-    if(this._api.returnUser().role==='Admin'){
+    this.userAdminLogin = this._api.returnUser();
+    if (this.userAdminLogin.role === 'Admin') {
       this.isAdmin = true;
     }
   }
-  login(value){
-    this._api.getAdminPassword(value).then((res)=>{
-      console.log(res)
+  login(value) {
+    this._api.getAdminPassword(value).then((res) => {
+      console.log(res);
       return res;
-    }).catch((res)=>{
-      console.log(res)
+    }).catch((res) => {
+      console.log(res);
       return res;
     });
   }

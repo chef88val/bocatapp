@@ -25,12 +25,13 @@ export class PedirComponent implements OnInit {
 
   }
   search(key1, value1, key2, value2) {
+    let res = { find: false, index: 0 };
     for (let i = 0; i < this.dataPedido.length; i++) {
-      console.log(this.dataPedido[i][key1], value1)
       if (this.dataPedido[i][key1] === value1 && this.dataPedido[i][key2] === value2) {
-        return { find: true, index: i };
+        res = { find: true, index: i };
       }
     }
+    return res;
   }
   multiSearch(obj) {
     this.dataPedido = this.dataPedido.filter(function (item) {
@@ -43,25 +44,26 @@ export class PedirComponent implements OnInit {
     });
   }
   formatPedido() {
-    console.log(this.pedido.users.length);
+    // console.log(this.pedido.users.length);
     this.pedido.users.forEach(element => {
       // element.item.extras = element.item.extras.sort();
       element.extras.sort().forEach(extra => {
         element.item.name += ' ' + extra;
-        console.log('element.item',element.item.name)
+        // console.log('element.item', element.item.name);
       });
       this.item = new itemPedido(element.item._id, 1, element.item.name, element.size);
-      console.log(this.item, 'this.pedido', element);
+      // console.log(this.item, 'this.pedido', element);
       if (this.dataPedido.length < 1) {
-        console.log('1');
         this.dataPedido.push(this.item);
       } else {
-        const el = this.search('id', element.item._id, 'size', element.size);
+        // console.log('name', this.item.item, 'size', element.size, '1', this.dataPedido);
+        const el = this.search('item', this.item.item, 'size', element.size);
+        // console.log('el', el);
         if (el.find) {
-          console.log('2');
+          // console.log('2');
           this.dataPedido[el.index].n += 1;
         } else {
-          console.log('3');
+          // console.log('3');
           this.dataPedido.push(this.item);
         }
       }
@@ -73,7 +75,7 @@ export class PedirComponent implements OnInit {
       this.isBooked = true;
     } else if (this.isBooked) {
       this.pedido.status = 'pedido';
-      this._api.updateStatusPedido('status', 'pedido').then(data => { if ('_id' in data) { console.log('1', data) } });
+      this._api.updateStatusPedido('status', 'pedido').then(data => { if ('_id' in data) { console.log('1', data); } });
     }
   }
 }

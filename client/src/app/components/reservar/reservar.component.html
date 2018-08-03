@@ -5,7 +5,8 @@
 </div>
 <div class="row ">
   <div class=" col-lg-12 container">
-    <button type="button" [disabled]="!(book.item!=null && book.size!=null && book.user!=null)" class="btn btn-info btn-block"
+    <pre>{{book| json}}</pre>
+    <button type="button" [disabled]="!(book.item!=null && book.size!=null && book.extras!=null)" class="btn btn-info btn-block"
       (click)="itemToBook()">¿Este es el que quieres?</button>
     <hr>
     <div class="form-group row">

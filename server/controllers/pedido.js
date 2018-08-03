@@ -122,6 +122,10 @@ function savePedido(user) {
 function updatePedido(req, res, next) {
     if (req.params.id) {
         try {
+            console.log('before',typeof req.body.extras);
+            req.body.extras=req.body.extras.split(', ')
+            req.body.extras=req.body.extras.map((x => x.toLowerCase()))
+            console.log('after',req.body.extras);
             var update = req.body;
             Pedido.findByIdAndUpdate(req.params.id,
                 //update, 
@@ -214,7 +218,8 @@ function updateStatusPedido(req, res, next) {
                 sendEmail.sendStatusEmail(_pedido, utils.getUsersPedido(_pedido.users))
             return res.status(200).send({
                 message: "Pedido updated"
-            })}
+            }) 
+}
         })
     } catch (error) {
 

@@ -4,6 +4,7 @@ import { Bocata } from '../bocata';
 import { User } from '../user';
 import { Pedido } from '../pedido';
 import { Moment } from 'moment';
+import { CookieService } from '../../../node_modules/ngx-cookie';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class ApiRestService {
   private pedido: Pedido = new Pedido(null, null, null, null);
   private moment: Moment;
 
-  constructor(private _restangular: Restangular) { }
+  constructor(private _restangular: Restangular, private cookie: CookieService) { }
 
   getAdmin() {
     const response = this._restangular.one('admin').one('data').get();
@@ -45,8 +46,8 @@ export class ApiRestService {
       return user.name;
     });
   }
-  returnUser(): User { console.log('user', this.user); return this.user; }
-  setUser(user) { this.user = user }
+  returnUser() { console.log('user', this.user); return this.cookie.getObject('userLogged'); }
+  setUser(user) { this.user = user; }
   returnPedido(): Pedido { return this.pedido; }
   postUser(item) {
     const response = this._restangular.one('user').customPOST(JSON.stringify(item), null, null, { 'Content-Type': 'application/json' });
@@ -58,14 +59,15 @@ export class ApiRestService {
   }
 
   putUser(item) {
-    const response = this._restangular.one('user', this.pedido._id).customPUT(JSON.stringify(item), null, null, { 'Content-Type': 'application/json' });
+    const response = this._restangular.one('user', this.pedido._id)
+    .customPUT(JSON.stringify(item), null, null, { 'Content-Type': 'application/json' });
     return response.toPromise().then((user) => {
       return user;
     });
   }
 
   loginUser(type, user) {
-    console.log('user', user)
+    console.log('user', user);
     if (!type) {
       return this._restangular.one('user').customPOST(JSON.stringify(user), null, null, { 'Content-Type': 'application/json' })
         .toPromise().then((result) => {
@@ -73,7 +75,7 @@ export class ApiRestService {
           this.user = result;
           return result;
         }).catch((err) => {
-          console.log(err)
+          console.log(err);
           return err;
         });
     } else {
@@ -83,7 +85,7 @@ export class ApiRestService {
           this.user = result;
           return result;
         }).catch((err) => {
-          console.log(err)
+          console.log(err);
           return err;
         });
     }
@@ -118,23 +120,31 @@ export class ApiRestService {
   }
 
   putBocatas(item) {
-    const response = this._restangular.one('bocata', this.pedido._id).customPUT(JSON.stringify(item), null, null, { 'Content-Type': 'application/json' });
-    return response.toPromise().then((bocata) => {
-      return bocata;
-    });
+    if ('_id' in this.pedido) {
+      const response = this._restangular.one('bocata', this.pedido._id)
+        .customPUT(JSON.stringify(item), null, null, { 'Content-Type': 'application/json' });
+      return response.toPromise().then((bocata) => {
+        return bocata;
+      });
+    }
   }
 
 
 
 
   getPedido() {
-    const resp = this._restangular.one('pedido').get();
-    return resp.toPromise().then((result) => {
-      this.pedido = result;
-      return result;
-    }).catch((err) => {
+    /*if ('_id' in this.pedido) {
+      if (this.pedido._id != null) {
+console.log('pedido', this.pedido)*/
+        const resp = this._restangular.one('pedido').get();
+        return resp.toPromise().then((result) => {
+          this.pedido = result;
+          return result;
+        }).catch((err) => {
 
-    });
+        });
+      /*} else {return this.pedido; }
+    } else {return this.pedido; }*/
   }
   postPedido(item) {
     const response = this._restangular.one('pedido').customPOST(JSON.stringify(item), null, null, { 'Content-Type': 'application/json' });
@@ -145,8 +155,8 @@ export class ApiRestService {
     });
   }
   putPedido(item) {
-    console.log(this.pedido)
-    console.log(item)
+    console.log(this.pedido);
+    console.log(item);
 
     return this._restangular.one('pedido/' + this.pedido._id + '/bocatas')
       .customPUT(JSON.stringify(item), null, null, { 'Content-Type': 'application/json' })

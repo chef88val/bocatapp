@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   private email: String;
   private isNew: Boolean = false;
   constructor(private route: ActivatedRoute, private _route: Router, private cookie: CookieService,
-     private _api: ApiRestService, private main: MainComponent,  private alert: AlertsService ) { }
+    private _api: ApiRestService, private main: MainComponent, private alert: AlertsService) { }
 
   ngOnInit() {
     console.log('asdasd');
@@ -36,40 +36,40 @@ export class LoginComponent implements OnInit {
       } else { this.isNew = false; }
     });
     // this._api.getFeed(this.id).then((params)=>{console.log(params);return params})
-    if(!this.isNew ){
-    this._api.getAdmin().then((data) => { console.log(data.profilesAPI); this.profiles.push(data.profilesAPI) });
-    console.log(this.profiles)
-    this._api.setUser(this.userLogin);
-    this._route.navigate(['']);
+    if (!this.isNew) {
+      this._api.getAdmin().then((data) => { console.log(data.profilesAPI); this.profiles.push(data.profilesAPI); });
+      console.log(this.profiles);
+      this._api.setUser(this.userLogin);
+      this._route.navigate(['']);
     }
 
   }
 
   login(user) {
     console.log(user);
-    this._api.loginUser(this.isNew,user).then(data => { 
-      if ('_id' in data || data.status>0) {
+    this._api.loginUser(this.isNew, user).then(data => {
+      if ('_id' in data || data.status > 0) {
         console.log('_id');
         this._api.setUser(data);
-        this.main.checkUser(true); 
+        this.main.checkUser(true);
         this.cookie.put('isLogged', 'true');
         this.cookie.putObject('userLogged', data);
         this._route.navigate(['/']);
-      } else { 
-       // this.main.checkUser(false) 
-       this.alert.warn('Error');
+      } else {
+        // this.main.checkUser(false)
+        this.alert.error('Error');
       }
-      console.log('1', data)
-               if (this.isNew)  this._route.navigate(['']);
-               this.alert.success('OK');
-         }).catch((err)=>{
+      console.log('1', data);
+      if (this.isNew) { this._route.navigate(['']); }
+      this.alert.success('OK');
+    }).catch((err) => {
 
-         });
+    });
 
-      //console.log('resp',resp);
-      /*.then((data)=>{
-        console.log(data);
-      });*/
+    // console.log('resp',resp);
+    /*.then((data)=>{
+      console.log(data);
+    });*/
     /*} else {
 
     }*/

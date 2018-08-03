@@ -36,7 +36,8 @@ export class MainComponent implements OnInit {
     if (!this.cookie.get('isLogged') || !(this.cookie.get('isLogged') === 'true')) {
       console.log(this.user._id, '1-', this._api.isUser());
       this.checkRole();
-      this._api.loginUser(false, this.user).then((result) => {
+      this.isUser = false;
+      /*this._api.loginUser(false, this.user).then((result) => {
         this.getPedido();
         console.log(result);
         this.user = new User(result._id, result.name, result.email, result.role, result.profile);
@@ -44,7 +45,7 @@ export class MainComponent implements OnInit {
         this.isUser = false;
       }).catch((err) => {
 
-      });
+      });*/
     } else {
       const userLogged = JSON.parse(this.cookie.get('userLogged'));
       console.log(typeof userLogged, userLogged);
