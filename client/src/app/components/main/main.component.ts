@@ -16,7 +16,7 @@ import { Alert, AlertType } from '../../alert';
 })
 export class MainComponent implements OnInit {
   public user: User = new User(null, null, 'jsm.multimedia@gmail.com', 'User', 'SF');
-  private pedido: Pedido = new Pedido(null, null, null, 'draft');
+  private pedido: Pedido = new Pedido(null, null, null, 'draft', null,null);
   public isUser: Boolean = true;
   public isCaller: Boolean = true;
   public isAdmin: Boolean = true;
@@ -75,7 +75,7 @@ export class MainComponent implements OnInit {
   getPedido() {
     this._api.getPedido().then((result) => {
       console.log('adpp', this.pedido);
-      this.pedido = new Pedido(result._id, result.title, result.caller, result.status);
+      this.pedido = new Pedido(result._id, result.title, result.caller, result.status, result.items, result.users);
     }).catch((err) => {
     });
   }

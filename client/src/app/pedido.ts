@@ -10,10 +10,12 @@ export class Pedido {
     public visible: Boolean = true;
     public timeChangeSatus: Moment;
 
-    constructor(_id?: String, title?: String, caller?: any, status?: String) {
+    constructor(_id: String, title: String, caller: any, status: String, items: any, users: any;) {
         this._id = _id;
         this.title = title;
         this.caller = caller;
         this.status = status;
+        this.items = items;
+        this.users = users;
     }
 }

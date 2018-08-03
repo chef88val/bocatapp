@@ -11,7 +11,7 @@ import { CookieService } from '../../../node_modules/ngx-cookie';
 })
 export class ApiRestService {
   private user: User = new User();
-  private pedido: Pedido = new Pedido(null, null, null, null);
+  private pedido: Pedido = new Pedido(null, null, null, null,null, null);
   private moment: Moment;
 
   constructor(private _restangular: Restangular, private cookie: CookieService) { }
