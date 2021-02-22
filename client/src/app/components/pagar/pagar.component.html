@@ -1,24 +1,37 @@
-<table style="width:100%">
+<div class=" row">
+  <div class=" text-center col-lg-12 component">
+    <h4> Ajusta cuentas con tus compañeros </h4>
+  </div>
+</div>
+<div class="row ">
+  <div class="col-lg-12 container ">
+  <button type="button" [disabled]="!(isPagado)" class="btn btn-info btn-block" (click)="nextStep()">Cierra el pedido y que aproveche!</button>
+  <hr>
+  <table class="table table-hover" style="width:100%">
     <tr>
-      <th>N</th>
-      <th>Bocata</th> 
-      <th>Size</th>
-      <th>Usuario</th>
-      <th>€</th>
-      <th>Pagado</th>
+      <th class="text-center">N</th>
+      <th class="text-center">Bocata</th>
+      <th class="text-center">Size</th>
+      <th class="text-center">Usuario</th>
+      <th class="text-center">€</th>
+      <th class="text-center">Pagado</th>
     </tr>
-    <tr *ngFor="let item of dataPedido">
+    <tr *ngFor="let item of dataPedido" (click)="pagar(item)" [ngClass]="{'table-success': item.pagado,'table-danger': !item.pagado}">
 
-      <td>{{item.n}}</td>
-      <td>{{item.item}}</td> 
-      <td>{{item.size | size}}</td>
-      <td>{{item.user}}</td> 
-      <td>{{item.dinero}}</td> 
-      <td>
-        <span *ngIf="item.pagado">{{item.pagado}}</span>
-        <button *ngIf="!item.pagado" (click)="pagar(item)">Pagar</button>
-      </td> 
+      <td class="text-center">{{item.n}}</td>
+      <td class="text-center">{{item.item}}</td>
+      <td class="text-center">{{item.size | size}}</td>
+      <td class="text-center">{{item.user}}</td>
+      <td class="text-center">{{item.dinero}}</td>
+      <td class="text-center">
+        <span *ngIf="item.pagado">
+          <i class="fa fa-check-circle fa-2x" style="color:green"></i>
+        </span>
+        <!--<button *ngIf="!item.pagado" (click)="pagar(item)">Pagar</button><i class="fa fa-times-circle fa-2x" style="color:red"></i>-->
+      </td>
     </tr>
   </table>
   <hr>
   <h1 class="text-center">{{totalPedido | number:'1.2-2'}}</h1>
+</div>
+</div>

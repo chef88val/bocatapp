@@ -1,3 +1,19 @@
-<p>
-  admin works!
-</p>
+<div *ngIf="isAdmin" class="row col-lg-12 justify-content-around ">
+  <app-admin-item [info]="'user'"></app-admin-item>
+  <app-admin-item [info]="'pedido'"></app-admin-item>
+  <app-admin-item [info]="'bocata'"></app-admin-item>
+</div>
+<div  *ngIf="!isAdmin" class="row ">
+  <div class="col-md-6 offset-md-4 ">
+    <div class="jumbotron">
+      <h1>BocatApp - Admin</h1>
+
+      <div class="form-group">
+        <label for="exampleDropdownFormEmail2">Password</label>
+        <input type="password" [(ngModel)]="userAdminLogin.value" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
+      </div>
+      <hr>
+      <button type="button" [disabled]="!userAdminLogin.value" *ngIf="!isNew" (click)="login(userAdminLogin.value)" class="btn btn-block btn-primary">Log in</button>
+    </div>
+  </div>
+</div>

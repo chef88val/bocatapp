@@ -1,13 +1,24 @@
-<table style="width:100%">
-    <tr>
-      <th>N</th>
-      <th>Bocata</th> 
-      <th>Size</th>
-    </tr>
-    <tr *ngFor="let item of dataPedido">
+<div class=" row">
+  <div class=" text-center col-lg-12 component">
+    <h4> Es hora de hacer el pedido!</h4>
+  </div>
+</div>
+<div class="row ">
+  <div class="col-lg-12 container ">
+    <button type="button" class="btn btn-info btn-block" [disabled]="dataPedido.length<1" (click)="nextStep()">LLama y pide estos bocatas</button>
+    <hr>
+    <table class="table table-hover" style="width:100%">
+      <tr>
+        <th class="text-center">N"</th>
+        <th class="text-center">Bocata</th>
+        <th class="text-center">Size</th>
+      </tr>
+      <tr *ngFor="let item of dataPedido">
 
-      <td>{{item.n}}</td>
-      <td>{{item.item}}</td> 
-      <td>{{item.size | size}}</td>
-    </tr>
-  </table>
+        <td class="text-center">{{item.n}}</td>
+        <td class="text-center">{{item.item}}</td>
+        <td class="text-center">{{item.size | size}}</td>
+      </tr>
+    </table>
+  </div>
+</div>

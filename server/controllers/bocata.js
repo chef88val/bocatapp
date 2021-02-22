@@ -65,7 +65,6 @@ function updateBocata(req, res, next) {
     if (req.params.id) {
         try {
             var update = req.body;
-            console.log('1', req.body)
             update.visible = true;
             Bocata.findByIdAndUpdate(req.params.id, update, {
                 new: true
@@ -137,8 +136,28 @@ function deleteBocata(req, res, next) {
     }
 }
 
+function saveBocata(bocata) {
+    var res;
+    let _bocata = new Bocata(bocata);
+    try {
+        Bocata.create(_bocata, {
+            new: true
+        }, (err, __bocata) => {
+            res = __bocata;
+            /*  if (err) return err
+              if (!_bocata) return null
+              return _bocata*/
+
+        })
+    } catch (error) {
+        return error
+    }
+    console.log('res', res)
+
+}
 module.exports = {
     getBocata,
     deleteBocata,
-    updateBocata
+    updateBocata,
+    saveBocata
 };

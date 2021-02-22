@@ -9,7 +9,8 @@ export class User {
     public notify: Boolean = true;
     public visible: Boolean = true;
 
-    constructor(name?: String, email?: String, role?: String, profile?: String){
+    constructor(_id?: String, name?: String, email?: String, role?: String, profile?: String){
+        this._id = _id;
         this.name = name;
         this.email = email;
         this.role = role;

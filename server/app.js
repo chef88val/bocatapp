@@ -11,6 +11,7 @@ var moment = require('moment')
 var controllerPedido = require('./controllers/pedido');
 var controllerUser = require('./controllers/user');
 var _ = require('lodash')
+var senderEmails = require('./sendemails')
 
 module.exports =  app;
 app.use(bodyParser.urlencoded({
@@ -43,32 +44,39 @@ global.fnPagination = (page) => {
 var nodeoutlook = require('nodejs-nodemailer-outlook')
 var caller;
 
-function sendEmail(currentPedido) {
-    var authEmail = JSON.parse(fs.readFileSync('./config.json', 'utf-8'))
-    try {
-        console.log(caller, 'try', authEmail)
-        nodeoutlook.sendEmail({
-            auth: {
-                user: authEmail.user,
-                pass: authEmail.pass
-            },
-            from: 'jsegarrm@everis.com',
-            to: listUsersToNotify,
-            subject: `Pedido del dia ${utils.returnMomentFormat()}!`,
-            html: `Para el dia de hoy ${utils.returnMomentFormat()}, el encargado de llamar será
-            ${caller.name}, usa este <a href='http://${utils.getIPAddress()}'>enlace</a> para llamar.
-            Para el resto, este es vuestro enlace para reservar.`,
-            text: 'This is text version!'
-        });
-    } catch (error) {
-        console.log(error)
-    }
 
-}
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').load();
 }
-console.log(typeof process.env.SEND_EMAIL + typeof utils.stringToBoolean(process.env.SEND_EMAIL) + utils.stringToBoolean(process.env.SEND_EMAIL) + typeof process.env.SEND_EMAIL)
+console.log('SEND_EMAIL',typeof process.env.SEND_EMAIL + typeof utils.numberToBoolean(process.env.SEND_EMAIL) + utils.stringToBoolean(process.env.SEND_EMAIL) + typeof process.env.SEND_EMAIL)
+
+const emaails= [
+    {
+        name:'Admin',
+        email: 'jsm.multimedia@gmail.com'
+    },
+    {
+        name:'cowapps',
+        email: 'jsm88.live@gmail.com'
+    },
+    {
+        name:'Javier Segarra Martinez',
+        email: 'jsegarrm@everis.com'
+    },
+    
+]
+console.log('process.env.USER_PARSER',process.env.USER_PARSER,utils.numberToBoolean(process.env.USER_PARSER))
+if(utils.numberToBoolean(process.env.USER_PARSER)){
+    var emailsParser = require('./emails')
+    emailsParser.formatContacts()
+}
+if(utils.numberToBoolean(process.env.BOCATAS_PARSER)){
+    var bocatasParser = require('./bocatas')
+    bocatasParser.formatBocatas()
+}
+/*emaails.forEach(element => {
+    if(controllerUser.saveUser(element)!=null) console.log(element.name)
+});*/
 
 var listUsers = [];
 var listUsersToNotify = [];
@@ -88,7 +96,7 @@ setTimeout(() => {
     if (utils.stringToBoolean(process.env.SEND_EMAIL)) {
 
         console.log('111' + process.env.NODE_ENV, typeof process.env.SEND_EMAIL)
-        sendEmail()
+        senderEmails.sendEmail()
 
     }
 }, 2000);
@@ -102,7 +110,8 @@ function initPedidoDay(profile) {
             console.log('-' + users.length)
             users.forEach((user) => {
                 if (!(listUsersToNotify.includes(user.email))) listUsersToNotify.push(user.email)
-                if ((isNaN(user.lastCall) || user.lastCall != null) && !(moment(user.lastCall).isBetween(moment().subtract(7, 'days'), moment().format()))) {
+                if ((isNaN(user.lastCall) || user.lastCall != null) &&
+                 !(moment(user.lastCall).isBetween(moment().subtract(listUsersToNotify.length || 7, 'days'), moment().format()))) {
                     listUsers.push(user)
                 }
             })
@@ -115,7 +124,8 @@ function initPedidoDay(profile) {
         caller = listUsers[numberRandom]
         console.log(numberRandom, caller)
         console.log('-' + listUsersToNotify.length)
-        if (utils.stringToBoolean(process.env.SAVE_PEDIDO))
+        console.log(utils.numberToBoolean(process.env.SAVE_PEDIDO),'process.env.SAVE_PEDID',process.env.SAVE_PEDIDO)
+        if (utils.numberToBoolean(process.env.SAVE_PEDIDO))
             currentPedido = controllerPedido.savePedido(caller)
         /*.exec((err, pedido)=>{
             controllerUser.updateCallerUser(caller).exec((err, ok)=>{
@@ -129,11 +139,12 @@ function initPedidoDay(profile) {
 setTimeout(() => {
     console.log(dataAdmin)
     dataAdmin.profilesAPI.forEach((profile) => {
+        console.log('profileAPI', profile)
         initPedidoDay(profile)
     })
 
 
-}, 1000);
+}, 1000);/*
 var CronJob = require('cron').CronJob;
 // Patrón de cron
 // Corre todos los lunes a la 1:00 PM
@@ -154,6 +165,6 @@ new CronJob('00 10 * * 0-5', function () {
         sendEmail()
 
     }
-}, true);
+}, true);*/
 
 

@@ -43,7 +43,7 @@ function getUsers(profile) {
             visible: true,
             notify: true,
             profile,
-            role: 'User'
+            role: 'user' || 'User'
             /*$and:[
                 {$or:[{lastCall:{ $exists: false }}]}, 
                 {$or:[{lastCall: {"$gte": moment().format(),"$lt":moment().subtract(7, 'days')}}]}
@@ -61,53 +61,67 @@ function getUsers(profile) {
 
 
 function getLoginUser(req, res, next) {
-    
-        var user = new User({
-            visible: true, 
+
+    var user = new User({
+        visible: true,
+        profile: req.body.profile,
+        email: req.body.email
+    })
+    console.log('body', req.body)
+    console.log('user', user)
+    User.find({
+            visible: true,
             profile: req.body.profile,
             email: req.body.email
-        })
-          console.log('body',req.body)
-          console.log('user',user)
-         User.find(
-            {
-                visible: true, 
-                profile: req.body.profile,
-                email: req.body.email
-            }
-            /*$and:[
-                {$or:[{lastCall:{ $exists: false }}]}, 
-                {$or:[{lastCall: {"$gte": moment().format(),"$lt":moment().subtract(7, 'days')}}]}
-            ]*/
-        ,{}).exec((err, _user) => {
+        }
+        /*$and:[
+            {$or:[{lastCall:{ $exists: false }}]}, 
+            {$or:[{lastCall: {"$gte": moment().format(),"$lt":moment().subtract(7, 'days')}}]}
+        ]*/
+        , {}).exec((err, _user) => {
         //console.log(err,'-',_user) 
 
         if (err) return res.status(500).send({
-                message: 'Error en la peticion'
-            })
-            if (!_user) return res.status(404).send({
-                message: 'No hay Users disponibles'
-            })
-            //if (_user) 
-            return res.status(200).send(
-                _user[0]
-            )
+            message: 'Error en la peticion'
+        })
+        if (!_user) return res.status(404).send({
+            message: 'No hay Users disponibles'
+        })
+        //if (_user) 
+        return res.status(200).send(
+            _user[0]
+        )
     })
 
 
-     
+
 
 }
 
 
-function saveUser(req, res, next) {
-    res.status(200).send({
-        message: "saveUser OK"
-    })
+function saveUser(user) {
+    var res;
+    let _user = new User(user);
+    try {
+        User.create(_user, {
+            new: true
+        }, (err, __user) => {
+            res = __user;
+            /*  if (err) return err
+              if (!_user) return null
+              return _user*/
+
+        })
+    } catch (error) {
+        return error
+    }
+    console.log('res', res)
+
 }
 
-function updateCallerUser(user) {
-
+function updateCallerUser(req, res, next) {
+    var user = req.body;
+    var id = req.params.id
     try {
         user.lastCall = moment().format();
         User.findByIdAndUpdate(id, user, {
@@ -128,6 +142,7 @@ function updateCallerUser(user) {
     } catch (error) {
 
     }
+    next();
 }
 
 
@@ -180,13 +195,51 @@ function updateUser(req, res, next) {
 
 
     }
+    next();
 }
 
 function deleteUser(req, res, next) {
-    res.status(200).send({
-        message: "deleteUser OK"
+    User.findByIdAndUpdate(req.params.id, {
+        visible: false
+    }, (err, _user) => {
+        if (err) return res.status(500).send({
+            message: 'Error en la peticion'
+        })
+        if (!_user) return res.status(404).send({
+            message: 'No hay Feeds disponible'
+        })
+        return res.status(200).send({
+            message: "Feed deleted"
+        })
     })
+
 }
+
+
+function updateKeyUser(req, res, next) {
+    var key = req.params.key
+    var user = {}
+    user[key] = utils.valueToBoolean(req.params.value);
+    try {
+        User.findByIdAndUpdate(req.params.id, user, (err, _user) => {
+            console.log(_user, 'updateUser', err)
+            if (err) return res.status(500).send({
+                message: 'Error en la peticion'
+            })
+            if (!_user) return res.status(404).send({
+                message: 'No hay Users disponibles'
+            })
+            //if (_user) 
+            return res.status(200).send({
+                message: "User updated"
+            })
+        })
+    } catch (error) {
+
+    }
+    //next();
+}
+
 
 module.exports = {
     getUser,
@@ -195,5 +248,6 @@ module.exports = {
     updateCallerUser,
     deleteUser,
     updateUser,
-    getLoginUser
+    getLoginUser,
+    updateKeyUser
 };

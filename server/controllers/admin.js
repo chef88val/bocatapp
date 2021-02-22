@@ -1,10 +1,20 @@
  var fs = require('fs');
+ var User = require('../models/user')
+ var Pedido = require('../models/pedido')
  var dataAdmin = require('../dataAdmin');
-
+var utils = require('../utils')
 
  function getPassword(req, res, next) {
+     console.log(req.params.password)
      if (req.params.password) {
-         var auth = JSON.parse(fs.readFileSync('./config.json', 'utf-8'))
+         try {
+            var auth = JSON.parse(fs.readFileSync('./config.json', 'utf-8'))
+             
+         } catch (error) {
+            return res.status(500).send({
+                message: 'Error en la peticion'
+            })
+         }
          if (!auth.passwordAdmin) return res.status(500).send({
              message: 'Error en la peticion'
          })

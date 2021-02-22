@@ -17,3 +17,12 @@ mongoose.connect(`mongodb://localhost:27017/${nameApp}`, {
             })
         }
     ).catch(err => console.log('err', err))
+
+var utils = require('./utils')
+var externalip = require('externalip');
+var globalIp = '';
+externalip((err, ip) => {
+    globalIp = ip;
+    console.log('globalIp', globalIp)
+    console.log(`http://${utils.getIPAddress()}:4200`);
+})
